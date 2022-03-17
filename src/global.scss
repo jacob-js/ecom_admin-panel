@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+*{
+    font-family: "Open Sans", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.btn{
+    background-color: #dd4900;
+    color: white;
+    border: none;
+    outline: 0;
+    border-radius: 20px;
+    height: 40px;
+
+    &:hover, &:focus {
+        background-color: #dd4900 !important;
+        color: white;
+    }
+    &:disabled{
+        background-color: rgb(218, 225, 231);
+        color: rgb(125, 135, 156);
+        border-color: rgb(218, 225, 231);
+    }
+}
+.alert{
+    margin-bottom: 20px;
+}
+.empty{
+    width: 100%;
+}
+
+$color_default : #dd4900;
+$bg_color: rgb(246, 249, 252);
+
+body{
+    background-color: $bg_color;
+}
+.input-pass{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .eye{
+        position: absolute;
+        top: 35%;
+        right: 15px;
+    }
+}
+.infinite-scroll-component{
+    overflow: hidden !important;
+}
+
+@import './Assets/styles/auth.scss';
+@import 'antd/dist/antd.css';
+@import 'aos/dist/aos.css';

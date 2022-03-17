@@ -1,0 +1,16 @@
+.auth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+    .card{
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        .left{
+            width: 50%;
+            background-image: url('../images/login-illustration.png');
+        }
+    }
+}
