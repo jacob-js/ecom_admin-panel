@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FieldContainer, FieldError, FormContainer, Input, Link, PasswordInput, Title } from '../Commons/commons';
 import { useFormik } from 'formik';
 import { getFieldError } from '../../Utils/helpers';
 import { Button } from 'antd';
 import * as yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import Aos from 'aos';
 
 const schema = yup.object({
     username: yup.string().required('Ce champ est obligatoire'),
@@ -17,10 +19,15 @@ function Login() {
         validationSchema: schema,
         validateOnBlur: true
     });
+    const history = useHistory();
+
+    useEffect(() =>{
+        Aos.init({ duration: 500 });
+    })
 
   return (
     <div className="auth">
-        <div className="card">
+        <div className="card" data-aos='fade-down'>
             <div className="left"></div>
             <div className="right">
                 <Title className='title'>Connexion</Title>
@@ -33,7 +40,7 @@ function Login() {
                         getFieldError([], 'username') ? <FieldError>{getFieldError([], 'username')}</FieldError> : null}
                     </FieldContainer>
                     <FieldContainer>
-                        <PasswordInput form={form} />
+                        <PasswordInput form={form} field='password' />
                         {form.errors.password && form.touched.password ? <FieldError>{form.errors.password}</FieldError> : 
                         getFieldError([], 'password') ? <FieldError>{getFieldError([], 'password')}</FieldError> : null}
                     </FieldContainer>
@@ -41,7 +48,7 @@ function Login() {
                 </FormContainer>
                 <div className="extra-links">
                     <Link>Mot de passe oublié ?</Link>
-                    <Link>Créer un compte</Link>
+                    <Link onClick={() =>history.push('/signup')}>Créer un compte</Link>
                 </div>
             </div>
         </div>

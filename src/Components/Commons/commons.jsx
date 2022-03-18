@@ -117,14 +117,14 @@ export const Label = styled.label`
     color: rgb(75, 86, 107);
 `
 
-export const PasswordInput = ({form}) =>{
+export const PasswordInput = ({form, field, placeholder}) =>{
     const [visible, setVisible] = useState()
 
     return(
         <div className="input-pass">
-            <Input type={visible ? 'text': 'password'} placeholder="Mot de passe" className={
-                form.errors.password && form.touched.password || getFieldError([], 'password') ? 'error' : ''
-            } onChange={form.handleChange('password')} />
+            <Input type={visible ? 'text': 'password'} placeholder={ placeholder || "Mot de passe"} className={
+                form.errors[field] && form.touched[field] || getFieldError([], field) ? 'error' : ''
+            } onChange={form.handleChange(field)} />
             { visible ? <EyeOutlined className='eye' onClick={() => setVisible(false)} /> :
                 <EyeInvisibleOutlined className='eye' onClick={() => setVisible(true)} />
             }
