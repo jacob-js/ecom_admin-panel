@@ -124,7 +124,7 @@ export const PasswordInput = ({form, field, placeholder}) =>{
         <div className="input-pass">
             <Input type={visible ? 'text': 'password'} placeholder={ placeholder || "Mot de passe"} className={
                 form.errors[field] && form.touched[field] || getFieldError([], field) ? 'error' : ''
-            } onChange={form.handleChange(field)} />
+            } onChange={form.handleChange(field)} autoComplete='none' />
             { visible ? <EyeOutlined className='eye' onClick={() => setVisible(false)} /> :
                 <EyeInvisibleOutlined className='eye' onClick={() => setVisible(true)} />
             }

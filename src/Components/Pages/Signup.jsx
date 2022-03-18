@@ -45,7 +45,7 @@ function Signup() {
       <div className="card signup" data-aos='fade-up'>
         <div className="left"></div>
         <div className="right">
-          <FormContainer onSubmit={form.handleSubmit}>
+          <FormContainer onSubmit={form.handleSubmit} autoComplete='off'>
               <Title className='title'>Inscription</Title>
               <div className="fields">
                   {
@@ -74,6 +74,15 @@ function Signup() {
                       getFieldError(error, 'email') ? <FieldError>{getFieldError(error, 'email')}</FieldError> : null}
                   </FieldContainer>
                   <FieldContainer>
+                      <Input type="text" placeholder="Profession" className={
+                          form.errors.profession && form.touched.profession || getFieldError(error, 'profession') ? 'error' : ''
+                      } onChange={form.handleChange('profession')}
+                        name='profession' id='profession' autoComplete="nope"
+                      />
+                      {form.errors.profession && form.touched.profession ? <FieldError>{form.errors.profession}</FieldError> : 
+                      getFieldError(error, 'profession') ? <FieldError>{getFieldError(error, 'profession')}</FieldError> : null}
+                  </FieldContainer>
+                  <FieldContainer>
                       <Select placeholder='Province' defaultValue="d" onChange={form.handleChange('state')} className={
                           form.errors.state && form.touched.state || getFieldError(error, 'state') ? 'error' : ''
                       } >
@@ -86,13 +95,6 @@ function Signup() {
                           {form.errors.state && form.touched.state ? <FieldError>{form.errors.state}</FieldError> : 
                           getFieldError(error, 'state') ? <FieldError>{getFieldError(error, 'state')}</FieldError> : null}
                       </Select>
-                  </FieldContainer>
-                  <FieldContainer>
-                      <Input type="text" placeholder="Profession" className={
-                          form.errors.profession && form.touched.profession || getFieldError(error, 'profession') ? 'error' : ''
-                      } onChange={form.handleChange('profession')} />
-                      {form.errors.profession && form.touched.profession ? <FieldError>{form.errors.profession}</FieldError> : 
-                      getFieldError(error, 'profession') ? <FieldError>{getFieldError(error, 'profession')}</FieldError> : null}
                   </FieldContainer>
                   <FieldContainer>
                       <PasswordInput form={form} field='password' />
