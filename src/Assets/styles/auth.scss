@@ -7,10 +7,50 @@
     .card{
         background-color: white;
         display: flex;
-        flex-direction: column;
+        width: 50%;
+        min-height: 500px;
+        border-radius: 20px;
+        box-shadow: 0 0 50px rgba(0,0,0,0.1);
         .left{
             width: 50%;
-            background-image: url('../images/login-illustration.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            background-color: $bg_color;
+            border-radius: 20px 0px 0px 20px;
+            &::after{
+                content: '';
+                position: absolute;
+                width: 100%;
+                min-height: 100%;
+                top: 0;
+                left: 0;
+                background-image: url('../images/login-illustration.png');
+            }
+        }
+        .right{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .title{
+                width: 80%;
+                font-size: 30px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                color: gray;
+            }
+            .extra-links{
+                width: 80%;
+                display: flex;
+                justify-content: space-between;
+            }
+            form{
+                .btn.login{
+                    margin-top: 15px;
+                }
+            }
         }
     }
 }

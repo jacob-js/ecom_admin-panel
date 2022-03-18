@@ -1,11 +1,21 @@
 import React from 'react'
-import { FieldContainer, FormContainer, Input, PasswordInput } from '../Commons/commons';
+import { FieldContainer, FieldError, FormContainer, Input, Link, PasswordInput, Title } from '../Commons/commons';
 import { useFormik } from 'formik';
 import { getFieldError } from '../../Utils/helpers';
+import { Button } from 'antd';
+import * as yup from 'yup';
+
+const schema = yup.object({
+    username: yup.string().required('Ce champ est obligatoire'),
+    password: yup.string().required('Ce champ est obligatoire')
+})
 
 function Login() {
     const form = useFormik({
-        initialValues: { username: '', password: '' }
+        initialValues: { username: '', password: '' },
+        onSubmit: values => console.log(values),
+        validationSchema: schema,
+        validateOnBlur: true
     });
 
   return (
@@ -13,16 +23,26 @@ function Login() {
         <div className="card">
             <div className="left"></div>
             <div className="right">
-                <FormContainer>
+                <Title className='title'>Connexion</Title>
+                <FormContainer onSubmit={form.handleSubmit}>
                     <FieldContainer>
-                        <Input type="text" placeholder="Email ou numéro de téléphone" />
+                        <Input type="text" placeholder="Email ou numéro de téléphone" className={
+                            form.errors.username || getFieldError([], 'username') ? 'error' : ''
+                        } onChange={form.handleChange('username')} autoComplete='off' />
+                        {form.errors.username && form.touched.username ? <FieldError>{form.errors.username}</FieldError> : 
+                        getFieldError([], 'username') ? <FieldError>{getFieldError([], 'username')}</FieldError> : null}
                     </FieldContainer>
                     <FieldContainer>
                         <PasswordInput form={form} />
-                        {/* {form.errors.password && form.touched.password ? <FieldError>{form.errors.password}</FieldError> : 
-                        getFieldError(error, 'password') ? <FieldError>{getFieldError(error, 'password')}</FieldError> : null} */}
+                        {form.errors.password && form.touched.password ? <FieldError>{form.errors.password}</FieldError> : 
+                        getFieldError([], 'password') ? <FieldError>{getFieldError([], 'password')}</FieldError> : null}
                     </FieldContainer>
+                    <Button type='primary' htmlType='submit' className='btn login'>Connexion</Button>
                 </FormContainer>
+                <div className="extra-links">
+                    <Link>Mot de passe oublié ?</Link>
+                    <Link>Créer un compte</Link>
+                </div>
             </div>
         </div>
     </div>

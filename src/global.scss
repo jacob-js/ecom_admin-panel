@@ -9,8 +9,11 @@
     color: white;
     border: none;
     outline: 0;
-    border-radius: 20px;
+    border-radius: 15px;
     height: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+    box-shadow: 0 0 5px #f07233;
 
     &:hover, &:focus {
         background-color: #dd4900 !important;
