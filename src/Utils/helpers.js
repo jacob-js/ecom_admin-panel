@@ -1,8 +1,6 @@
-// import {routes} from "../Routes/routes";
-
-// export const authRoutes = routes.filter(route => route.authRoute);
-// export const protectedRoutesWithNav = routes.filter(route => route.protected && route.nav);
-// export const notProtectedRoutesWithNav = routes.filter(route => !route.protected && route.nav);
+export const authRoutes = (routes=[]) => routes.filter(route => route.authRoute);
+export const protectedRoutesWithNav = (routes=[]) => routes.filter(route => route.protected && route.nav);
+export const notProtectedRoutesWithNav = (routes=[]) => routes.filter(route => !route.protected && route.nav);
 
 
 export const getFieldError = (errors, field) => {

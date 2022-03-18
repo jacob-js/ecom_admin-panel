@@ -1,4 +1,4 @@
-import { Login, Signup } from '../Components'
+import { Dashboard, Login, Signup } from '../Components'
 
 export const routes = [
     {
@@ -16,5 +16,13 @@ export const routes = [
         exact: true,
         protected: false,
         authRoute: true
+    },
+    {
+        name: 'Dashboard',
+        path: '/',
+        component: Dashboard,
+        exact: true,
+        protected: true,
+        nav: true
     }
 ]
