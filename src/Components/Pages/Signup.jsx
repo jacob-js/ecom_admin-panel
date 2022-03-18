@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowRightOutlined } from '@ant-design/icons/lib/icons';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { provinces } from '../../Utils/data';
 import { Button } from 'antd';
 import { PasswordInput, FieldContainer, FieldError, FormContainer, Input, Link, Select, Title  } from '../Commons/commons';
+import Aos from 'aos'
 
 const schema = yup.object({
   fullname: yup.string().required("Le nom complet est requis"),
@@ -34,6 +35,10 @@ function Signup() {
     // onSubmit: values =>  mutation.mutate(values),
     validationSchema: schema
   });
+
+  useEffect(() =>{
+    Aos.init({ duration: 500 });
+  })
 
   return (
     <div className="auth">
@@ -69,10 +74,10 @@ function Signup() {
                       getFieldError(error, 'email') ? <FieldError>{getFieldError(error, 'email')}</FieldError> : null}
                   </FieldContainer>
                   <FieldContainer>
-                      <Select placeholder='Province' onChange={form.handleChange('state')} className={
+                      <Select placeholder='Province' defaultValue="d" onChange={form.handleChange('state')} className={
                           form.errors.state && form.touched.state || getFieldError(error, 'state') ? 'error' : ''
                       } >
-                          <option value="" selected disabled>Selectionner la province</option>
+                          <option value="d" disabled>Selectionner la province</option>
                           {
                               provinces.map((province, index) => {
                                   return <option key={index} value={province}>{province}</option>
