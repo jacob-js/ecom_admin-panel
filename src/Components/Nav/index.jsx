@@ -6,7 +6,9 @@ import Sidebar from './Sidebar'
 function Nav({children}) {
   return (
     <div className='nav'>
-        <div className={`sidebar`}><Sidebar /></div>
+        <div className="">
+          <div className={`sidebar`}><Sidebar /></div>
+        </div>
         <div className="nav-left">
             <Affix offsetTop={0}>
                 <Header />

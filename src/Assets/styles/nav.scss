@@ -3,9 +3,6 @@
     width: 250px;
     transition: all .5s ease;
 }
-.side.min{
-    width: 80px;
-}
 .sidebar{
     height: 100vh;
     position: fixed;
@@ -17,13 +14,12 @@
 .nav{
     position: relative;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 250px 1fr;
 }
 .nav-left
 {
     max-width: 100%;
     min-height: 100vh;
-    background-color: 'white';
     padding-bottom: 2%;
     transition: all .5s ease;
 }
@@ -88,11 +84,11 @@
 .nav-header
 {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    background-color: $color_default;
-    color: white;
+    background-color: white;
     padding: 15px 20px;
+    box-shadow: 0 0 10px rgb(233, 233, 233);
 }
 .header-title
 {
@@ -107,17 +103,29 @@
 .notif
 {
     margin-right: 20px;
+    margin-top: 10px;
 }
 .icon-notif
 {
-    color: white;
+    color: gray;
     font-size: 20px;
     cursor: pointer;
 }
-.header-search{
-    background-color: #fc9337;
+.u-avatar{
+    cursor: pointer;
 }
-input.aw::placeholder
-{
-    color: rgba(255, 255, 255, 0.5);
+.user-popover{
+    .item{
+        width: 100%;
+        padding: 5px 15px;
+        color: gray;
+        transition: all .2s ease;
+        cursor: pointer;
+        &:hover{
+            background-color: $bg_color;
+        }
+        .icon{
+            margin-right: 10px;
+        }
+    }
 }
