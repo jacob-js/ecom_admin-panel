@@ -1,0 +1,123 @@
+.side {
+    position: relative;
+    width: 250px;
+    transition: all .5s ease;
+}
+.side.min{
+    width: 80px;
+}
+.sidebar{
+    height: 100vh;
+    position: fixed;
+    width: 250px;
+    background-color: white;
+    transition: .2s ease-in;
+    border-right: 1px solid rgb(243, 243, 243);
+}
+.nav{
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+.nav-left
+{
+    max-width: 100%;
+    min-height: 100vh;
+    background-color: 'white';
+    padding-bottom: 2%;
+    transition: all .5s ease;
+}
+.top
+{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    align-items: center;
+    transition: .5s;
+}
+.logo
+{
+    transition: .5s;
+}
+.menus-section
+{
+    margin-top: 30px;
+    width: 90%;
+    overflow-x: hidden;
+}
+.menu-item
+{
+    display: flex;
+    font-size: 16px;
+    margin-bottom: 5px;
+    padding: 15px 20px;
+    transition: .5s ease;
+    cursor: pointer;
+    border-left: 5px solid transparent;
+    font-weight: 500;
+    color: gray;
+}
+.menu-name
+{
+    font-size: 16px;
+    transition: .2s;
+}
+.menu-item:hover
+{
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.menu-item.active
+{
+    color: $color_default;
+    border-left-color: $color_default;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 0 15px 15px 0;
+}
+.menu-icon
+{
+    margin-right: 20px;
+}
+.sidebar.min .menus-section .menu-name
+{
+    display: none;
+    font-size: 0px;
+}
+
+.nav-header
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $color_default;
+    color: white;
+    padding: 15px 20px;
+}
+.header-title
+{
+    font-weight: bold;
+    font-size: 20px;
+}
+.nav-header .right
+{
+    display: flex;
+    align-items: center;
+}
+.notif
+{
+    margin-right: 20px;
+}
+.icon-notif
+{
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+.header-search{
+    background-color: #fc9337;
+}
+input.aw::placeholder
+{
+    color: rgba(255, 255, 255, 0.5);
+}

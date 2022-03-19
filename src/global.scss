@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 *{
-    font-family: "Open Sans", Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
 }
 
 .btn{
@@ -54,5 +55,6 @@ body{
 }
 
 @import './Assets/styles/auth.scss';
+@import './Assets/styles/nav.scss';
 @import 'antd/dist/antd.css';
 @import 'aos/dist/aos.css';
