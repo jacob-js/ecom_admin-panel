@@ -1,8 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Table } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { productsColumns } from '../../Utils/tablesColumns'
 import { Input, Select } from '../Commons/commons';
+import ProductAddForm from './ProductAddForm';
 
 const data = [
     {
@@ -19,6 +20,8 @@ const data = [
 ]
 
 function Products() {
+    const [visibleAddForm, setVisibleAddForm] = useState();
+    const [visibleEditForm, setVisibleEditForm] = useState();
   return (
     <div className='products'>
         <div className="header">
@@ -38,7 +41,9 @@ function Products() {
                     </Select>
                 </div>
                 <div className="field">
-                    <Button type='primary' className='btn add-product' icon={<PlusOutlined />} block>Ajouter un produit</Button>
+                    <Button type='primary' className='btn add-product' icon={<PlusOutlined />} block onClick={setVisibleAddForm}>
+                        Ajouter un produit
+                    </Button>
                 </div>
             </div>
         </div>
@@ -46,6 +51,7 @@ function Products() {
         <div className="content">
             <Table dataSource={data} columns={productsColumns} className='table' />
         </div>
+        <ProductAddForm visible={visibleAddForm} onClose={() => setVisibleAddForm(false)} />
     </div>
   )
 }
