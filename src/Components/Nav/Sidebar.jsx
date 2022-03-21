@@ -16,7 +16,7 @@ const items = [
   {
       name: 'Produits',
       icon: <RiShoppingBag3Line />,
-      path: '/stations'
+      path: '/products'
   },
   {
       name: 'Utilisateurs',
