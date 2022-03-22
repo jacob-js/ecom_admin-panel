@@ -110,7 +110,7 @@ export const FieldError = styled.span`
 
 export const Label = styled.label`
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 10px;
     margin-top: 10px;
     margin-right: 6px;
