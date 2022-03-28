@@ -1,5 +1,7 @@
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { Tag } from "atomize";
+import moment from "moment";
 
 export const productsColumns = [
     {
@@ -132,6 +134,38 @@ export const subCategorysColumns = [
             <>
                 <EditOutlined /> <DeleteOutlined />
             </>
+        )
+    }
+]
+
+export const ordersColumns = [
+    {
+        title: 'Reference',
+        key: 'reference',
+        dataIndex: 'ref'
+    },
+    {
+        title: 'Temps',
+        key: 'time',
+        render: item =>(
+            <span>{moment(item.createdAt).format('ll')}</span>
+        )
+    },
+    {
+        title: 'Adresse de livraison',
+        key: 'address',
+        dataIndex: 'address'
+    },
+    {
+        title: 'N° de téléphone',
+        key: 'phone',
+        dataIndex: 'phone'
+    },
+    {
+        title: 'Etat',
+        key: 'status',
+        render: item =>(
+            <Tag rounded="xl">{item.status}</Tag>
         )
     }
 ]
