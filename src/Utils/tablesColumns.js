@@ -55,4 +55,83 @@ export const productsColumns = [
             </>
         )
     }
+];
+
+export const productTypesColumns = [
+    {
+        title: 'Icon',
+        key: 'icon',
+        render: (item) =>(
+            <Avatar src={item.icon} />
+        )
+    },
+    {
+        title: 'Nom',
+        key: 'name',
+        dataIndex: 'name'
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (item) =>(
+            <>
+                <EditOutlined /> <DeleteOutlined />
+            </>
+        )
+    }
+]
+
+export const categorysColumns = [
+    {
+        title: 'Icon',
+        key: 'icon',
+        render: (item) =>(
+            <Avatar src={item.cover} />
+        )
+    },
+    {
+        title: 'Nom',
+        key: 'name',
+        dataIndex: 'name'
+    },
+    {
+        title: 'Type',
+        key: 'type',
+        render: item =>(
+            <span>{item.ProductType?.name}</span>
+        )
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (item) =>(
+            <>
+                <EditOutlined /> <DeleteOutlined />
+            </>
+        )
+    }
+]
+
+export const subCategorysColumns = [
+    {
+        title: 'Nom',
+        key: 'name',
+        dataIndex: 'name'
+    },
+    {
+        title: 'Catégorie parent',
+        key: 'type',
+        render: item =>(
+            <span>{item.Category?.name}</span>
+        )
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (item) =>(
+            <>
+                <EditOutlined /> <DeleteOutlined />
+            </>
+        )
+    }
 ]

@@ -2,7 +2,7 @@ import { FiUsers, FiCompass } from 'react-icons/fi'
 import { ImUserTie } from 'react-icons/im';
 import { SettingOutlined } from '@ant-design/icons'
 import React from 'react'
-import { RiShoppingBag3Line, RiDashboardLine, RiGiftLine } from 'react-icons/ri';
+import { RiShoppingBag3Line, RiDashboardLine, RiGiftLine, RiListUnordered } from 'react-icons/ri';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import logo from '../../Assets/images/min_logo.png'
@@ -17,6 +17,11 @@ const items = [
       name: 'Produits',
       icon: <RiShoppingBag3Line />,
       path: '/products'
+  },
+  {
+      name: 'Catégories',
+      icon: <RiListUnordered />,
+      path: '/categorys'
   },
   {
       name: 'Utilisateurs',

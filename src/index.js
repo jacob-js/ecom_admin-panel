@@ -5,13 +5,20 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from './Routes';
+import { Provider as StyletronProvider, DebugEngine } from "styletron-react";
+import { Client as Styletron } from "styletron-engine-atomic";
+import { StyleReset } from 'atomize';
+
+const debug = process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
+const engine = new Styletron();
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StyletronProvider value={engine} debug={debug} debugAfterHydration>
+    <StyleReset />
     <Router>
       <Routes />
     </Router>
-  </React.StrictMode>,
+  </StyletronProvider>,
   document.getElementById('root')
 );
 

@@ -1,4 +1,4 @@
-import { Dashboard, Login, Signup } from '../Components'
+import { Categorys, Dashboard, Login, Signup } from '../Components'
 import Products from '../Components/Pages/Products'
 
 export const routes = [
@@ -30,6 +30,14 @@ export const routes = [
         name: 'Products',
         path: '/products',
         component: Products,
+        exact: true,
+        protected: true,
+        nav: true
+    },
+    {
+        name: 'Categorys',
+        path: '/categorys',
+        component: Categorys,
         exact: true,
         protected: true,
         nav: true
