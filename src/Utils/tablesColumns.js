@@ -16,7 +16,9 @@ export const productsColumns = [
     {
         title: 'Catégorie',
         key: 'category',
-        dataIndex: 'category'
+        render: (item) =>(
+            <span>{item.Category?.name}</span>
+        )
     },
     {
         title: 'Prix',
@@ -45,16 +47,18 @@ export const productsColumns = [
         title: 'Détail',
         key: 'detail',
         render: (item) =>(
-            <EyeOutlined />
+            <div className="row-actions">
+                <EyeOutlined className="view-row" />
+            </div>
         )
     },
     {
         title: 'Actions',
         key: 'actions',
         render: (item) =>(
-            <>
-                <EditOutlined /> <DeleteOutlined />
-            </>
+            <div className="row-actions">
+                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+            </div>
         )
     }
 ];

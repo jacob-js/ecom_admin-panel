@@ -35,6 +35,7 @@
 
 $color_default : #dd4900;
 $bg_color: rgb(246, 249, 252);
+$danger_color: rgb(190, 0, 0);
 
 body{
     background-color: $bg_color;
@@ -52,6 +53,46 @@ body{
 }
 .infinite-scroll-component{
     overflow: hidden !important;
+}
+.row-actions{
+    display: flex;
+    justify-content: space-evenly;
+    .edit-row, .view-row{
+        font-weight: bold;
+        cursor: pointer;
+        transition: all .3s ease;
+
+        &:hover, &:focus {
+            color: gray;
+        }
+    }
+    .delete-row{
+        font-weight: bold;
+        cursor: pointer;
+        transition: all .3s ease;
+        &:hover, &:focus {
+            color: $danger_color;
+        }
+    }
+}
+.ant-pagination{
+    justify-content: flex-end !important;
+    li{
+        border-radius: 50%;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center;
+        .ant-pagination-item-link{
+            border-radius: 50% !important;
+        }
+    }
+    .ant-pagination-item.ant-pagination-item-active{
+        border-color: $color_default !important;
+        color: $color_default !important;
+        a{
+            color: $color_default !important;
+        }
+    }
 }
 
 @import './Assets/styles/auth.scss';

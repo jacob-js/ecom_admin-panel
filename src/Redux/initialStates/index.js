@@ -1,7 +1,9 @@
+import products from "./products";
 import users from "./users";
 
 const initialStates = {
-    users: users
+    users: users,
+    products: products
 };
 
 export default initialStates;

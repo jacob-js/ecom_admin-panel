@@ -1,6 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductsAction } from '../../Redux/actions/products';
 import { productsColumns } from '../../Utils/tablesColumns'
 import { Input, Select } from '../Commons/commons';
 import ProductAddForm from './ProductAddForm';
@@ -22,6 +24,15 @@ const data = [
 function Products() {
     const [visibleAddForm, setVisibleAddForm] = useState();
     const [visibleEditForm, setVisibleEditForm] = useState();
+    const { loading, rows, count } = useSelector(({ products: { products } }) =>products);
+    const dispatch = useDispatch();
+    const limit = 10;
+    const [offset, setOffset] = useState(0);
+
+    useEffect(() =>{
+        getProductsAction(offset, limit)(dispatch)
+    }, [offset, limit, dispatch]);
+
   return (
     <div className='products'>
         <div className="header">
@@ -49,7 +60,14 @@ function Products() {
         </div>
 
         <div className="content">
-            <Table dataSource={data} columns={productsColumns} className='table' />
+            <Table dataSource={rows} loading={loading} columns={productsColumns} 
+                className='table'
+                pagination={{
+                    total: count,
+                    pageSize: limit,
+                    onChange: (page) => setOffset((page - 1)*limit)
+                }} 
+            />
         </div>
         <ProductAddForm visible={visibleAddForm} onClose={() => setVisibleAddForm(false)} />
     </div>

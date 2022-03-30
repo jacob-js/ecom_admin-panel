@@ -4,9 +4,10 @@ import { FiLogOut } from 'react-icons/fi'
 import React from 'react'
 import { RiDashboardLine } from 'react-icons/ri'
 import { SettingOutlined } from '@ant-design/icons'
+import { useSelector } from 'react-redux'
 
 function Header() {
-  const data = {};
+  const { data } = useSelector(({ users: { currentUser } }) => currentUser);
   const popoverUserContent = (
     <div className="user-popover">
       <div className="item">
