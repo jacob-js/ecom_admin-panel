@@ -6,6 +6,9 @@ import { Button } from 'antd';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import Aos from 'aos';
+import { loginAction } from '../../Redux/actions/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from '@mui/material';
 
 const schema = yup.object({
     username: yup.string().required('Ce champ est obligatoire'),
@@ -13,13 +16,15 @@ const schema = yup.object({
 })
 
 function Login() {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const { error, loading } = useSelector(({ users: { login } }) =>login);
     const form = useFormik({
         initialValues: { username: '', password: '' },
-        onSubmit: values => console.log(values),
+        onSubmit: values => loginAction(values)(dispatch, history),
         validationSchema: schema,
         validateOnBlur: true
     });
-    const history = useHistory();
 
     useEffect(() =>{
         Aos.init({ duration: 500 });
@@ -32,6 +37,10 @@ function Login() {
             <div className="right">
                 <Title className='title'>Connexion</Title>
                 <FormContainer onSubmit={form.handleSubmit}>
+                    {
+                        error ?
+                        <Alert severity='error' className='alert' > {error} </Alert>:null
+                    }
                     <FieldContainer>
                         <Input type="text" placeholder="Email ou numéro de téléphone" className={
                             form.errors.username || getFieldError([], 'username') ? 'error' : ''
@@ -44,7 +53,7 @@ function Login() {
                         {form.errors.password && form.touched.password ? <FieldError>{form.errors.password}</FieldError> : 
                         getFieldError([], 'password') ? <FieldError>{getFieldError([], 'password')}</FieldError> : null}
                     </FieldContainer>
-                    <Button type='primary' htmlType='submit' className='btn login'>Connexion</Button>
+                    <Button loading={loading} type='primary' htmlType='submit' className='btn login'>Connexion</Button>
                 </FormContainer>
                 <div className="extra-links">
                     <Link>Mot de passe oublié ?</Link>

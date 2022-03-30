@@ -14,7 +14,8 @@ import axios from 'axios';
 
 const debug = process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
 const engine = new Styletron();
-axios.defaults.baseURL = 'http://localhost:5000'
+axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.headers.common['bweteta_token'] = localStorage.getItem('authtoken');
 
 ReactDOM.render(
   <StyletronProvider value={engine} debug={debug} debugAfterHydration>
