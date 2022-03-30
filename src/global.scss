@@ -94,6 +94,7 @@ body{
         }
     }
 }
+.error{ border-color: $danger_color }
 
 @import './Assets/styles/auth.scss';
 @import './Assets/styles/nav.scss';

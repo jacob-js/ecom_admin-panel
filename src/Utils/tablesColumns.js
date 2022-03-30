@@ -80,9 +80,9 @@ export const productTypesColumns = [
         title: 'Actions',
         key: 'actions',
         render: (item) =>(
-            <>
-                <EditOutlined /> <DeleteOutlined />
-            </>
+            <div className="row-actions">
+                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+            </div>
         )
     }
 ]
@@ -111,9 +111,9 @@ export const categorysColumns = [
         title: 'Actions',
         key: 'actions',
         render: (item) =>(
-            <>
-                <EditOutlined /> <DeleteOutlined />
-            </>
+            <div className="row-actions">
+                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+            </div>
         )
     }
 ]
@@ -135,9 +135,9 @@ export const subCategorysColumns = [
         title: 'Actions',
         key: 'actions',
         render: (item) =>(
-            <>
-                <EditOutlined /> <DeleteOutlined />
-            </>
+            <div className="row-actions">
+                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+            </div>
         )
     }
 ]
