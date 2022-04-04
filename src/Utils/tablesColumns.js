@@ -2,6 +2,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { Tag } from "atomize";
 import moment from "moment";
+import { MdOutlineCategory } from "react-icons/md";
 
 export const productsColumns = [
     {
@@ -92,7 +93,8 @@ export const categorysColumns = [
         title: 'Icon',
         key: 'icon',
         render: (item) =>(
-            <Avatar src={item.cover} />
+            item.cover ? <Avatar src={item.cover} />:
+            <Avatar icon={<MdOutlineCategory />} />
         )
     },
     {

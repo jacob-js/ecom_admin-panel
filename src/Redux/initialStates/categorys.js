@@ -13,6 +13,11 @@ const categorys = {
         loading: false,
         error: null,
         data: {}
+    },
+    createCategory: {
+        loading: false,
+        error: null,
+        data: {}
     }
 }
 
