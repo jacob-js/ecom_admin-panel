@@ -18,6 +18,16 @@ const categorys = {
         loading: false,
         error: null,
         data: {}
+    },
+    subs: {
+        loading: false,
+        error: null,
+        data: []
+    },
+    createSub: {
+        loading: false,
+        error: null,
+        data: {}
     }
 }
 
