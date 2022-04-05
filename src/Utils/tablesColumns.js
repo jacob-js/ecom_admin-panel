@@ -1,5 +1,5 @@
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Avatar } from "antd";
+import { DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Avatar, Popconfirm } from "antd";
 import { Tag } from "atomize";
 import moment from "moment";
 import { MdOutlineCategory } from "react-icons/md";
@@ -64,7 +64,7 @@ export const productsColumns = [
     }
 ];
 
-export const productTypesColumns = [
+export const productTypesColumns = (onDelete, loadingDelete, id) => [
     {
         title: 'Icon',
         key: 'icon',
@@ -82,13 +82,23 @@ export const productTypesColumns = [
         key: 'actions',
         render: (item) =>(
             <div className="row-actions">
-                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+                <EditOutlined className="edit-row" /> {
+                    loadingDelete && item.id === id ? <LoadingOutlined />:
+                    <Popconfirm 
+                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                        okText="Confirmer"
+                        cancelText='Annuler'
+                        okType="danger"
+                    >
+                        <DeleteOutlined className="delete-row" />
+                    </Popconfirm>
+                }
             </div>
         )
     }
 ]
 
-export const categorysColumns = [
+export const categorysColumns = (onDelete, loadingDelete, id) => [
     {
         title: 'Icon',
         key: 'icon',
@@ -114,13 +124,23 @@ export const categorysColumns = [
         key: 'actions',
         render: (item) =>(
             <div className="row-actions">
-                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+                <EditOutlined className="edit-row" /> {
+                    loadingDelete && item.id === id ? <LoadingOutlined />:
+                    <Popconfirm 
+                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                        okText="Confirmer"
+                        cancelText='Annuler'
+                        okType="danger"
+                    >
+                        <DeleteOutlined className="delete-row" />
+                    </Popconfirm>
+                }
             </div>
         )
     }
 ]
 
-export const subCategorysColumns = [
+export const subCategorysColumns = (onDelete, loadingDelete, id) => [
     {
         title: 'Nom',
         key: 'name',
@@ -138,7 +158,17 @@ export const subCategorysColumns = [
         key: 'actions',
         render: (item) =>(
             <div className="row-actions">
-                <EditOutlined className="edit-row" /> <DeleteOutlined className="delete-row" />
+                <EditOutlined className="edit-row" /> {
+                    loadingDelete && item.id === id ? <LoadingOutlined />:
+                    <Popconfirm 
+                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                        okText="Confirmer"
+                        cancelText='Annuler'
+                        okType="danger"
+                    >
+                        <DeleteOutlined className="delete-row" />
+                    </Popconfirm>
+                }
             </div>
         )
     }

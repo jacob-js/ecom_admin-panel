@@ -28,6 +28,12 @@ const categorys = {
         loading: false,
         error: null,
         data: {}
+    },
+    deleteCateg: {
+        loading: false,
+        id: null,
+        msg: null,
+        error: null
     }
 }
 

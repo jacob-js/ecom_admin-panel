@@ -2,6 +2,7 @@ import initialStates from "../../initialStates";
 import createCategory from "./createCategory";
 import createProductType from "./createProductType";
 import createSub from "./createSub";
+import deleteCateg from "./deleteCateg";
 import getCategorys from "./getCategorys";
 import getProductTypes from "./getProductTypes";
 import getSubs from "./getSubs";
@@ -13,7 +14,8 @@ const categorys =(state=initialStates.categorys, action={})=>({
     ...getCategorys(state, action),
     ...createCategory(state, action),
     ...getSubs(state, action),
-    ...createSub(state, action)
+    ...createSub(state, action),
+    ...deleteCateg(state, action)
 });
 
 export default categorys;

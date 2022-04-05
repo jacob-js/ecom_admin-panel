@@ -34,7 +34,7 @@ export default function CategoryForm({visible, setVisible}) {
         onSubmit: values => {
             const formData = new FormData();
             formData.append('name', values.name);
-            formData.append('productType', values.productType);
+            formData.append('typeId', values.productType);
             formData.append('isTop', values.isTop);
             formData.append('cover', file);
             createCategoryAction(formData)(dispatch, cb =>{

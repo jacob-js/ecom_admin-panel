@@ -164,3 +164,32 @@ export const createSubCategoryAction = (data) =>async(dispatch, cb) =>{
         }
     }
 }
+
+export const deleteCategAction = (id, type='categ') => async(dispatch) =>{
+    dispatch({ type: categorysActionTypes.DELETE_CATEGORY_START, payload: id });
+    const url = type === 'categ' ? `/api/v1/categorys/${id}`:
+                type === 'parent' ? `/api/v1/categorys/parents/categorys/${id}`:
+                `/api/v1/categorys/subs/categorys/${id}`;
+    try {
+        const res = await axios.delete(url);
+        if(res.status === 200){
+            dispatch({
+                type: categorysActionTypes.DELETE_CATEGORY_SUCCESS,
+                payload: { type, id, msg: res.data.message }
+            })
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: categorysActionTypes.DELETE_CATEGORY_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: categorysActionTypes.DELETE_CATEGORY_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            })
+        }
+    }
+}
