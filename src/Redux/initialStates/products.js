@@ -5,6 +5,11 @@ const products = {
         data: {},
         rows: [],
         count: 0
+    },
+    createProduct: {
+        loading: false,
+        error: null,
+        data: {}
     }
 };
 

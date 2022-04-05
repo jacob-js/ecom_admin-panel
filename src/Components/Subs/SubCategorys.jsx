@@ -17,7 +17,7 @@ export default function SubCategorys() {
     }, [dispatch])
 
     const onDeleteItem = (itemId) =>{
-        deleteCategAction(itemId, 'categ')(dispatch)
+        deleteCategAction(itemId, 'subs')(dispatch)
     }
 
   return (

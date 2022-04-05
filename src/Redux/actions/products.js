@@ -23,3 +23,30 @@ export const getProductsAction = (offset, limit) => async(dispatch) =>{
         }
     }
 }
+
+export const createProduct = (data) => async(dispatch, cb) =>{
+    dispatch({ type: productsActionsTypes.CREATE_PRODUCT_START });
+    try {
+        const res = await axios.post(`/api/v1/products`, data);
+        if(res.status === 201){
+            dispatch({
+                type: productsActionsTypes.CREATE_PRODUCT_SUCCESS,
+                payload: res.data.data
+            });
+            cb(true)
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: productsActionsTypes.CREATE_PRODUCT_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: productsActionsTypes.CREATE_PRODUCT_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            })
+        }
+    }
+}

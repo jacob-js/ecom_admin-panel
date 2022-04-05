@@ -1,12 +1,18 @@
 import { AiOutlinePicture } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
 import { Drawer } from 'antd'
-import React, { useState } from 'react'
-import { FieldContainer, FormContainer, Input, Label, Select, TextArea, Title } from '../Commons/commons';
+import React, { useEffect, useRef, useState } from 'react'
+import { FieldContainer, FieldError, FormContainer, Input, Label, Select, TextArea, Title } from '../Commons/commons';
 import { Select as AntSelect, Divider, Button } from 'antd';
 import SpecForm from './SpecForm';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, RightOutlined } from '@ant-design/icons';
+import Compressor from 'compressorjs';
+import { getCategorysAction } from '../../Redux/actions/categorys';
+import { useDispatch, useSelector } from 'react-redux';
+import { createProduct } from '../../Redux/actions/products';
+import { Alert } from '@mui/material';
 
 const { Option } = AntSelect;
 
@@ -21,9 +27,10 @@ const fields = [
     type: 'text'
   },
   {
-    name: 'category',
+    name: 'categoryId',
     label: 'Catégorie du produit',
-    type: 'select'
+    type: 'select',
+    placeholder: "Choisir une catégorie"
   },
   {
     name: 'price',
@@ -34,6 +41,7 @@ const fields = [
     name: 'currency',
     label: 'Devise',
     type: 'select',
+    placeholder: "Choisir une dévise"
   },
   {
     name: 'quantityMetric',
@@ -47,7 +55,8 @@ const fields = [
   {
     name: 'sizes',
     label: 'Tailles disponibles',
-    type: 'array'
+    type: 'array',
+    value: []
   }
 ];
 
@@ -65,26 +74,69 @@ export const productSchema = yup.object({
   })),
   discount: yup.number().min(0.0001, "Entre une valeur supérieure à zèro"),
   isNew: yup.boolean(),
-  sizes: yup.array(yup.string())
+  sizes: yup.array(yup.string()),
+  image: yup.number().required("Veuillez télécharger une image")
 })
 
 function ProductAddForm({onClose, visible}) {
   const [visibleSpecForm, setVisibleSpecForm] = useState(false);
+  const [ pic, setPic ] = useState();
+  const [ file, setFile ] = useState();
+  const inputFileRef = useRef();
+  const { data: categs } = useSelector(({categorys:{categorys}}) =>categorys);
+  const { loading, error } = useSelector(({ products: { createProduct } }) =>createProduct)
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: fields.reduce((acc, field) => {
-      acc[field.name] = ''
+      acc[field.name] = field.value
       return acc
-    }, { specifications: [] }),
+    }, { specifications: [], image: '' }),
     validationSchema: productSchema,
+    onSubmit: values =>{
+      const formData = new FormData();
+      fields.forEach(field =>{
+        if(field.type === 'array'){
+          formData.append(field.name, JSON.stringify(values[field.name]) || null);
+        }else{
+          formData.append(field.name, values[field.name]);
+        }
+      })
+      formData.append('specifications', JSON.stringify(values.specifications));
+      formData.append('cover', file);
+      createProduct(formData)(dispatch, cb =>{ if(cb){ formik.resetForm(); onClose() } })
+    }
   });
+
+  useEffect(() =>{
+    getCategorysAction(dispatch)
+  }, [dispatch]);
 
   const onSpecSubmit = (values) => {
     formik.setFieldValue('specifications', [...formik.values.specifications, values])
     setVisibleSpecForm(false)
   };
 
+  const onImgChange = e =>{
+    const file = e.target.files[0];
+    if(file){
+        new Compressor(file, {
+            quality: 0.5,
+            success(result) {
+                setFile(result);
+            }
+        });
+        formik.setFieldValue('image', 1)
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+            setPic(fileReader.result);
+        };
+    }
+  };
+
   return (
-    <Drawer width={850}
+    <Drawer width={950}
         placement='right' visible={visible} onClose={onClose}
         title={
             <div className="drawer-title">
@@ -94,54 +146,104 @@ function ProductAddForm({onClose, visible}) {
         }
         headerStyle={{background: 'rgb(246, 249, 252)'}}
     >
-      <FormContainer className='product-form'>
+      <FormContainer className='product-form' onSubmit={formik.handleSubmit}>
+        {
+            typeof(error) === 'string' ?
+            <Alert severity='error' className='alert' > {error} </Alert>:null
+        }
         <FieldContainer className='field'>
           <Label>Image du produit</Label>
-          <input type="file" name="image" id="image" style={{ display: 'none' }} />
-          <div className="image-container">
-            <AiOutlinePicture className='icon' />
-            <div className="descript">Cliquer pour télécharger une image</div>
+          <input type="file" name="image" id="image" style={{ display: 'none' }} ref={inputFileRef} onChange={onImgChange} />
+          <div className="right">
+            <div className={`image-container ${formik.touched.image && formik.errors.image ? 'error': ''}`}>
+                  {
+                      pic ?
+                      <div className="reader">
+                          <img src={pic} alt="" />
+                          <div className="edit" onClick={() =>inputFileRef.current.click()}>
+                              <BiEdit />
+                          </div>
+                      </div>:
+                          <div className="add" onClick={() =>inputFileRef.current.click()}>
+                          <AiOutlinePicture className='icon' />
+                          <div className="descript">Cliquer pour télécharger une image</div>
+                      </div>
+                  }
+              </div>
+              {
+                  formik.touched.image && formik.errors.image && <FieldError>{formik.errors.image}</FieldError>
+              }
           </div>
         </FieldContainer>
         {
           fields.map((field, index) => (
             <FieldContainer key={index} className='field'>
               <Label>{field.label}</Label>
-              {
-                field.type === 'text' ?
-                <TextArea name={field.name} />:
-                field.type === 'select' ?
-                <Select name={field.name} defaultValue="">
-                  {
-                    field.name === 'category' ?
-                    <>
-                      <option value="">Choisir une catégorie</option>
-                    </>:
-                    field.name === 'currency' &&
-                    <>
-                      <option value="">Choisir une devise</option>
-                    </>
-                  }
-                </Select>:
-                field.type === 'array' ?
-                <AntSelect
-                  mode="tags"
-                  size='middle'
-                  placeholder="Please select"
-                  // onChange={handleChange}
-                  style={{ width: '70%' }}
-                  className='select'
-                >
-                  {/* {children} */}
-                </AntSelect>
-                :
-                <Input name={field.name} type={field.inputType} />
-              }
+              <div className="right">
+                {
+                  field.type === 'text' ?
+                  <TextArea name={field.name} 
+                    className={formik.touched[field.name] && formik.errors[field.name] ? 'error': ''}
+                    onChange={formik.handleChange(field.name)}
+                  />:
+                  field.type === 'select' ?
+                  <AntSelect name={field.name}
+                    className={`select ${formik.errors[field.name] ? 'error': ''}`}
+                    placeholder={field.placeholder}
+                    onChange={value => formik.setFieldValue(field.name, value)}
+                  >
+                    {
+                      field.name === 'categoryId' ?
+                      <>
+                        {
+                          categs.map(categ =>(
+                            <>
+                              <Option value={categ.id} style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{categ.name}</Option>
+                              {
+                                categ.SubCategorys?.map(sub =>(
+                                  <Option value={sub.id} key={sub.id}
+                                    style={{ marginLeft: 20, fontSize: 13 }}
+                                  ><RightOutlined /> {sub.name}</Option>
+                                ))
+                              }
+                            </>
+                          ))
+                        }
+                      </>:
+                      field.name === 'currency' &&
+                      <>
+                        <Option value='USD'>$</Option>
+                        <Option value='CDF'>FC</Option>
+                      </>
+                    }
+                  </AntSelect>:
+                  field.type === 'array' ?
+                  <AntSelect
+                    mode="tags"
+                    size='middle'
+                    placeholder="Please select"
+                    onChange={value => formik.setFieldValue(field.name, value)}
+                    className={`select ${formik.errors[field.name] ? 'error': ''}`}
+                  >
+                  </AntSelect>
+                  :
+                  <Input name={field.name}
+                    type={field.inputType}
+                    className={formik.touched[field.name] && formik.errors[field.name] ? 'error': ''}
+                    onChange={formik.handleChange(field.name)}
+                  />
+                }
+                {
+                  formik.errors[field.name] &&
+                  <FieldError>{formik.errors[field.name]}</FieldError>
+                }
+              </div>
             </FieldContainer>
           ))
         }
-        <Divider orientation='left'>
-          <Title style={{ fontSize: 20, color: 'gray', textTransform: 'uppercase' }}>Caractéristiques</Title>
+        <Divider orientation='center' className='divider'>
+          <Title style={{ fontSize: 16, color: 'gray', textTransform: 'uppercase' }}>Caractéristiques</Title>
+          <Button className='btn add-spec' type='default' onClick={setVisibleSpecForm}>Ajouter</Button>
         </Divider>
         <div className="specs">
           {
@@ -161,8 +263,9 @@ function ProductAddForm({onClose, visible}) {
             ))
           }
         </div>
-        <Button className='btn add-spec' type='default' onClick={setVisibleSpecForm}>Ajouter</Button>
         <SpecForm visible={visibleSpecForm} onClose={() => setVisibleSpecForm(false)} onSubmit={onSpecSubmit} />
+
+        <Button type='primary' className='btn submit-prod' block htmlType='submit' loading={loading}>Sauvegarder</Button>
       </FormContainer>
     </Drawer>
   )

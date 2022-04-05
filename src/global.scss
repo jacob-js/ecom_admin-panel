@@ -94,7 +94,12 @@ body{
         }
     }
 }
-.error{ border-color: $danger_color !important }
+.error{ 
+    border-color: $danger_color !important;
+    .ant-select-selector{
+        border-color: $danger_color !important;
+    }
+}
 
 @import './Assets/styles/auth.scss';
 @import './Assets/styles/nav.scss';

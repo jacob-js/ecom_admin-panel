@@ -79,7 +79,7 @@ export default function CategoryForm({visible, setVisible}) {
             <FieldContainer className='field'>
             <Label>Image</Label>
             <input type="file" name="image" id="image" style={{ display: 'none' }} ref={inputFileRef} onChange={onImgChange} />
-            <div className={`image-container ${formik.touched.file && formik.errors.file ? 'error': ''}`}>
+            <div className={`image-container ${formik.touched.image && formik.errors.image ? 'error': ''}`}>
                 {
                     pic ?
                     <div className="reader">
