@@ -4,7 +4,7 @@ import { Tag } from "atomize";
 import moment from "moment";
 import { MdOutlineCategory } from "react-icons/md";
 
-export const productsColumns = (onDelete, loadingDelete, id) => [
+export const productsColumns = (onDelete, loadingDelete, id, viewEdit) => [
     {
         title: 'Nom du produit',
         key: 'name',
@@ -58,7 +58,7 @@ export const productsColumns = (onDelete, loadingDelete, id) => [
         key: 'actions',
         render: (item) =>(
             <div className="row-actions">
-                <EditOutlined className="edit-row" /> {
+                <EditOutlined className="edit-row" onClick={() =>viewEdit(item)} /> {
                     loadingDelete && item.id === id ? <LoadingOutlined />:
                     <Popconfirm 
                         onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"

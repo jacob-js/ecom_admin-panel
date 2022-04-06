@@ -4,7 +4,7 @@ import { Drawer } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import { FieldContainer, FieldError, FormContainer, Input, Label, Select, TextArea, Title } from '../Commons/commons';
 import { Select as AntSelect, Divider, Button } from 'antd';
-import SpecForm from '../Subs/SpecForm';
+import SpecForm from './SpecForm';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { CloseOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
@@ -55,8 +55,12 @@ const fields = [
   {
     name: 'sizes',
     label: 'Tailles disponibles',
-    type: 'array',
-    value: []
+    type: 'array'
+  },
+  {
+      name: 'discount',
+      label: 'Réduction',
+      inputType: 'number'
   }
 ];
 
@@ -74,11 +78,11 @@ export const productSchema = yup.object({
   })),
   discount: yup.number().min(0.0001, "Entre une valeur supérieure à zèro"),
   isNew: yup.boolean(),
-  sizes: yup.array(yup.string()),
+  sizes: yup.array(yup.string()).nullable(),
   image: yup.number().required("Veuillez télécharger une image")
 })
 
-function ProductAddForm({onClose, visible}) {
+function EditProductForm({onClose, visible, product}) {
   const [visibleSpecForm, setVisibleSpecForm] = useState(false);
   const [ pic, setPic ] = useState();
   const [ file, setFile ] = useState();
@@ -89,9 +93,9 @@ function ProductAddForm({onClose, visible}) {
 
   const formik = useFormik({
     initialValues: fields.reduce((acc, field) => {
-      acc[field.name] = field.value
+      acc[field.name] = product[field.name];
       return acc
-    }, { specifications: [], image: '' }),
+    }, { specifications: [], image: 1 }),
     validationSchema: productSchema,
     onSubmit: values =>{
       const formData = new FormData();
@@ -111,6 +115,16 @@ function ProductAddForm({onClose, visible}) {
   useEffect(() =>{
     getCategorysAction(dispatch)
   }, [dispatch]);
+
+  useEffect(() =>{
+      (() =>{
+          fields.forEach(field =>{
+              formik.setFieldValue(field.name, product[field.name])
+          });
+          formik.setFieldValue('specifications', product.specifications);
+          setPic(product.cover);
+      })()
+  }, [product, visible])
 
   const onSpecSubmit = (values) => {
     formik.setFieldValue('specifications', [...formik.values.specifications, values])
@@ -178,19 +192,21 @@ function ProductAddForm({onClose, visible}) {
         {
           fields.map((field, index) => (
             <FieldContainer key={index} className='field'>
-              <Label>{field.label}</Label>
+              <Label>{ field.name === 'discount' ? `${field.label} en ${formik.values.currency}`: field.label}</Label>
               <div className="right">
                 {
                   field.type === 'text' ?
                   <TextArea name={field.name} 
                     className={formik.touched[field.name] && formik.errors[field.name] ? 'error': ''}
                     onChange={formik.handleChange(field.name)}
+                    value={formik.values[field.name]}
                   />:
                   field.type === 'select' ?
                   <AntSelect name={field.name}
                     className={`select ${formik.errors[field.name] ? 'error': ''}`}
                     placeholder={field.placeholder}
                     onChange={value => formik.setFieldValue(field.name, value)}
+                    value={formik.values[field.name]}
                   >
                     {
                       field.name === 'categoryId' ?
@@ -224,13 +240,20 @@ function ProductAddForm({onClose, visible}) {
                     placeholder="Please select"
                     onChange={value => formik.setFieldValue(field.name, value)}
                     className={`select ${formik.errors[field.name] ? 'error': ''}`}
+                    value={formik.values.sizes}
                   >
+                      {
+                          formik.values[field.name]?.map((item, index) =>(
+                              <Option value={item} key={index}>{item}</Option>
+                          ))
+                      }
                   </AntSelect>
                   :
                   <Input name={field.name}
                     type={field.inputType}
                     className={formik.touched[field.name] && formik.errors[field.name] ? 'error': ''}
                     onChange={formik.handleChange(field.name)}
+                    value={formik.values[field.name]}
                   />
                 }
                 {
@@ -241,18 +264,18 @@ function ProductAddForm({onClose, visible}) {
             </FieldContainer>
           ))
         }
-        <Divider orientation='center' className='divider'>
+        <Divider orientation='left' className='divider'>
           <Title style={{ fontSize: 16, color: 'gray', textTransform: 'uppercase' }}>Caractéristiques</Title>
           <Button size='small' className='btn add-spec' type='default' onClick={setVisibleSpecForm} icon={<PlusOutlined />}></Button>
         </Divider>
         <div className="specs">
           {
-            formik.values.specifications.map((spec, index) => (
+            formik.values.specifications?.map((spec, index) => (
               <div className="spec" key={index}>
                 <div className="key">{spec.key} :</div>
                 <div className="value">{spec.value}</div>
                 <div className="del">
-                  <Button type="danger" shape="circle" icon={
+                  <Button type="default" shape="circle" icon={
                     <CloseOutlined />
                   } 
                   onClick={() => formik.setFieldValue('specifications', formik.values.specifications.filter((s, i) => i !== index))}
@@ -264,6 +287,31 @@ function ProductAddForm({onClose, visible}) {
             ))
           }
         </div>
+
+        <Divider orientation='left' className='divider'>
+          <Title style={{ fontSize: 16, color: 'gray', textTransform: 'uppercase' }}>Couleurs</Title>
+          <Button size='small' className='btn add-spec' type='default' onClick={setVisibleSpecForm} icon={<PlusOutlined />}></Button>
+        </Divider>
+        <div className="specs">
+          {
+            formik.values.specifications?.map((spec, index) => (
+              <div className="spec" key={index}>
+                <div className="key">{spec.key} :</div>
+                <div className="value">{spec.value}</div>
+                <div className="del">
+                  <Button type="primary" shape="circle" icon={
+                    <CloseOutlined />
+                  } 
+                  onClick={() => formik.setFieldValue('specifications', formik.values.specifications.filter((s, i) => i !== index))}
+                  size='small'
+                  className='btn del-spec'
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
         <SpecForm visible={visibleSpecForm} onClose={() => setVisibleSpecForm(false)} onSubmit={onSpecSubmit} />
 
         <Button type='primary' className='btn submit-prod' block htmlType='submit' loading={loading}>Sauvegarder</Button>
@@ -272,4 +320,4 @@ function ProductAddForm({onClose, visible}) {
   )
 }
 
-export default ProductAddForm
+export default EditProductForm

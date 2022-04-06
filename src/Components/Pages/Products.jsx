@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProd, getProductsAction } from '../../Redux/actions/products';
 import { productsColumns } from '../../Utils/tablesColumns'
 import { Input, Select } from '../Commons/commons';
+import EditProductForm from '../Subs/EditProduct';
 import ProductAddForm from './ProductAddForm';
 
 const data = [
@@ -24,6 +25,7 @@ const data = [
 function Products() {
     const [visibleAddForm, setVisibleAddForm] = useState();
     const [visibleEditForm, setVisibleEditForm] = useState();
+    const [editable, setEditable] = useState({});
     const { loading, rows, count } = useSelector(({ products: { products } }) =>products);
     const { loading: loadingDelete, id } = useSelector(({ products: { deleteProd } }) =>deleteProd);
     const dispatch = useDispatch();
@@ -36,7 +38,12 @@ function Products() {
 
     const onDeleteItem = (itemId) =>{
         deleteProd(itemId)(dispatch)
-      }
+    };
+
+    const onViewEditForm = (product) =>{
+        setVisibleEditForm(true);
+        setEditable(product);
+    }
 
   return (
     <div className='products'>
@@ -65,7 +72,7 @@ function Products() {
         </div>
 
         <div className="content">
-            <Table dataSource={rows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id)} 
+            <Table dataSource={rows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id, onViewEditForm)} 
                 className='table'
                 pagination={{
                     total: count,
@@ -75,6 +82,7 @@ function Products() {
             />
         </div>
         <ProductAddForm visible={visibleAddForm} onClose={() => setVisibleAddForm(false)} />
+        <EditProductForm visible={visibleEditForm} onClose={() => setVisibleEditForm(false)} product={editable} />
     </div>
   )
 }

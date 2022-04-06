@@ -132,11 +132,11 @@
         }
     }
     .btn.add-spec{
-        margin-left: 20px;
-        height: calc(40px * 75 / 100);
+        margin-left: 10px;
+        height: calc(40px * 50 / 100);
         background-color: white;
         border: 1px solid $color_default;
-        color: black;
+        color: $color_default;
         font-weight: normal;
         box-shadow: none;
         text-transform: capitalize;
@@ -144,6 +144,21 @@
         &:hover, &:focus {
             background-color: white !important;
             color: $color_default;
+        }
+    }
+    .btn.del-spec{
+        margin-left: 10px;
+        height: calc(40px * 50 / 100);
+        background-color: white;
+        border: 0px solid $color_default;
+        color: $danger_color;
+        font-weight: normal;
+        box-shadow: none;
+        text-transform: capitalize;
+        font-size: 14px;
+        &:hover, &:focus {
+            background-color: $danger_color !important;
+            color: white;
         }
     }
     .specs{
