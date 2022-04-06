@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductsAction } from '../../Redux/actions/products';
+import { deleteProd, getProductsAction } from '../../Redux/actions/products';
 import { productsColumns } from '../../Utils/tablesColumns'
 import { Input, Select } from '../Commons/commons';
 import ProductAddForm from './ProductAddForm';
@@ -25,6 +25,7 @@ function Products() {
     const [visibleAddForm, setVisibleAddForm] = useState();
     const [visibleEditForm, setVisibleEditForm] = useState();
     const { loading, rows, count } = useSelector(({ products: { products } }) =>products);
+    const { loading: loadingDelete, id } = useSelector(({ products: { deleteProd } }) =>deleteProd);
     const dispatch = useDispatch();
     const limit = 10;
     const [offset, setOffset] = useState(0);
@@ -32,6 +33,10 @@ function Products() {
     useEffect(() =>{
         getProductsAction(offset, limit)(dispatch)
     }, [offset, limit, dispatch]);
+
+    const onDeleteItem = (itemId) =>{
+        deleteProd(itemId)(dispatch)
+      }
 
   return (
     <div className='products'>
@@ -60,7 +65,7 @@ function Products() {
         </div>
 
         <div className="content">
-            <Table dataSource={rows} loading={loading} columns={productsColumns} 
+            <Table dataSource={rows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id)} 
                 className='table'
                 pagination={{
                     total: count,

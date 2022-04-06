@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sendNotif } from "../../Utils/helpers";
 import productsActionsTypes from "../actionsTypes/products"
 
 export const getProductsAction = (offset, limit) => async(dispatch) =>{
@@ -47,6 +48,35 @@ export const createProduct = (data) => async(dispatch, cb) =>{
                 type: productsActionsTypes.CREATE_PRODUCT_ERROR,
                 payload: error?.message || 'Erreur de chargement, veuillez réessayer'
             })
+        }
+    }
+}
+
+export const deleteProd = (id) =>async(dispatch) =>{
+    dispatch({ type: productsActionsTypes.DELETE_PRODUCT_START, payload: id });
+    try {
+        const res = await axios.delete(`/api/v1/products/${id}`);
+        if(res.status === 200){
+            dispatch({
+                type: productsActionsTypes.DELETE_PRODUCT_SUCCESS,
+                payload: {msg: res.data?.message, id: id}
+            });
+            sendNotif(res.data.message)
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: productsActionsTypes.DELETE_PRODUCT_ERROR,
+                payload: res.data?.message
+            });
+            sendNotif(res.data?.message || error?.message, 'error')
+        }else{
+            dispatch({
+                type: productsActionsTypes.DELETE_PRODUCT_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            });
+            sendNotif(error?.message || 'Erreur de chargement, veuillez réessayer', 'error')
         }
     }
 }

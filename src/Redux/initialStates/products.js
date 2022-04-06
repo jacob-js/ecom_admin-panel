@@ -10,6 +10,12 @@ const products = {
         loading: false,
         error: null,
         data: {}
+    },
+    deleteProd: {
+        loading: false,
+        error: null,
+        msg: null,
+        id: null
     }
 };
 

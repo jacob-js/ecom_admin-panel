@@ -23,7 +23,7 @@ const createCategory = (state, {type, payload}) => {
                 },
                 categorys: {
                     ...state.categorys,
-                    data: [...state.categorys.data, payload]
+                    data: [...state.categorys.data, {...payload, ParentCateg: state.productTypes.data.find(item => item.id === payload.typeId)}]
                 }
             }
             
