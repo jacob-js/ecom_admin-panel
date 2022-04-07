@@ -241,7 +241,7 @@ function ProductAddForm({onClose, visible}) {
             </FieldContainer>
           ))
         }
-        <Divider orientation='center' className='divider'>
+        <Divider orientation='left' className='divider'>
           <Title style={{ fontSize: 16, color: 'gray', textTransform: 'uppercase' }}>Caractéristiques</Title>
           <Button size='small' className='btn add-spec' type='default' onClick={setVisibleSpecForm} icon={<PlusOutlined />}></Button>
         </Divider>

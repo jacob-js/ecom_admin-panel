@@ -16,6 +16,11 @@ const products = {
         error: null,
         msg: null,
         id: null
+    },
+    updateProduct: {
+        loading: false,
+        error: null,
+        data: {}
     }
 };
 

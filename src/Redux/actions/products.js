@@ -79,4 +79,31 @@ export const deleteProd = (id) =>async(dispatch) =>{
             sendNotif(error?.message || 'Erreur de chargement, veuillez réessayer', 'error')
         }
     }
+};
+
+export const updateProductAction = (id, data) => async(dispatch, cb) =>{
+    dispatch({ type: productsActionsTypes.UPDATE_PRODUCT_START });
+    try {
+        const res = await axios.put(`/api/v1/products/${id}`, data);
+        if(res.status === 200){
+            dispatch({
+                type: productsActionsTypes.UPDATE_PRODUCT_SUCCESS,
+                payload: res.data.data
+            });
+            cb(true)
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: productsActionsTypes.UPDATE_PRODUCT_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: productsActionsTypes.UPDATE_PRODUCT_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            })
+        }
+    }
 }

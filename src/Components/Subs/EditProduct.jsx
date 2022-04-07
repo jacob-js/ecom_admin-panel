@@ -11,8 +11,9 @@ import { CloseOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import Compressor from 'compressorjs';
 import { getCategorysAction } from '../../Redux/actions/categorys';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct } from '../../Redux/actions/products';
+import { createProduct, updateProductAction } from '../../Redux/actions/products';
 import { Alert } from '@mui/material';
+import ColorForm from './ColorForm';
 
 const { Option } = AntSelect;
 
@@ -84,18 +85,19 @@ export const productSchema = yup.object({
 
 function EditProductForm({onClose, visible, product}) {
   const [visibleSpecForm, setVisibleSpecForm] = useState(false);
+  const [visibleColorForm, setVisibleColorForm] = useState(false);
   const [ pic, setPic ] = useState();
   const [ file, setFile ] = useState();
   const inputFileRef = useRef();
   const { data: categs } = useSelector(({categorys:{categorys}}) =>categorys);
-  const { loading, error } = useSelector(({ products: { createProduct } }) =>createProduct)
+  const { loading, error } = useSelector(({ products: { updateProduct } }) =>updateProduct)
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: fields.reduce((acc, field) => {
       acc[field.name] = product[field.name];
       return acc
-    }, { specifications: [], image: 1 }),
+    }, { specifications: [], image: 1, colors: [] }),
     validationSchema: productSchema,
     onSubmit: values =>{
       const formData = new FormData();
@@ -107,8 +109,8 @@ function EditProductForm({onClose, visible, product}) {
         }
       })
       formData.append('specifications', JSON.stringify(values.specifications));
-      formData.append('cover', file);
-      createProduct(formData)(dispatch, cb =>{ if(cb){ formik.resetForm(); onClose() } })
+      if(pic !== product.cover) formData.append('cover', file);
+      updateProductAction(product.id, formData)(dispatch, cb =>{ if(cb){ formik.resetForm(); onClose() } })
     }
   });
 
@@ -121,7 +123,8 @@ function EditProductForm({onClose, visible, product}) {
           fields.forEach(field =>{
               formik.setFieldValue(field.name, product[field.name])
           });
-          formik.setFieldValue('specifications', product.specifications);
+          formik.setFieldValue('specifications', product.specifications || []);
+          formik.setFieldValue('colors', product.Colors || []);
           setPic(product.cover);
       })()
   }, [product, visible])
@@ -129,6 +132,11 @@ function EditProductForm({onClose, visible, product}) {
   const onSpecSubmit = (values) => {
     formik.setFieldValue('specifications', [...formik.values.specifications, values])
     setVisibleSpecForm(false)
+  };
+
+  const onColorSubmit = (values) => {
+    formik.setFieldValue('colors', [ ...formik.values.colors, values])
+    setVisibleColorForm(false)
   };
 
   const onImgChange = e =>{
@@ -290,29 +298,30 @@ function EditProductForm({onClose, visible, product}) {
 
         <Divider orientation='left' className='divider'>
           <Title style={{ fontSize: 16, color: 'gray', textTransform: 'uppercase' }}>Couleurs</Title>
-          <Button size='small' className='btn add-spec' type='default' onClick={setVisibleSpecForm} icon={<PlusOutlined />}></Button>
+          <Button size='small' className='btn add-spec' type='default' onClick={setVisibleColorForm} icon={<PlusOutlined />}></Button>
         </Divider>
-        <div className="specs">
+        <div className="colors">
           {
-            formik.values.specifications?.map((spec, index) => (
-              <div className="spec" key={index}>
-                <div className="key">{spec.key} :</div>
-                <div className="value">{spec.value}</div>
+            formik.values.colors?.map((color, index) => (
+              <div className="color" key={index}>
+                <img src={color.preview || color.image} alt="" />
                 <div className="del">
-                  <Button type="primary" shape="circle" icon={
+                  <Button type="default" shape="circle" icon={
                     <CloseOutlined />
                   } 
-                  onClick={() => formik.setFieldValue('specifications', formik.values.specifications.filter((s, i) => i !== index))}
+                  onClick={() => formik.setFieldValue('colors', formik.values.colors.filter((s, i) => i !== index))}
                   size='small'
-                  className='btn del-spec'
+                  danger
                   />
                 </div>
+                <div className="name">{color.name}</div>
               </div>
             ))
           }
         </div>
 
         <SpecForm visible={visibleSpecForm} onClose={() => setVisibleSpecForm(false)} onSubmit={onSpecSubmit} />
+        <ColorForm visible={visibleColorForm} onClose={() => setVisibleColorForm(false)} onSubmit={onColorSubmit} />
 
         <Button type='primary' className='btn submit-prod' block htmlType='submit' loading={loading}>Sauvegarder</Button>
       </FormContainer>
