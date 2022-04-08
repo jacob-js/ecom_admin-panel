@@ -194,7 +194,7 @@ export const ordersColumns = [
         title: 'Temps',
         key: 'time',
         render: item =>(
-            <span>{moment(item.createdAt).format('ll')}</span>
+            <span>{moment(item.createdAt).format('DD-MM-YYYY  HH:mm')}</span>
         )
     },
     {
@@ -210,8 +210,23 @@ export const ordersColumns = [
     {
         title: 'Etat',
         key: 'status',
-        render: item =>(
-            <Tag rounded="xl">{item.status}</Tag>
+        render: record =>(
+            record.status === 'inProcess' ?
+            <Tag p={{ x: "10px", y: "5px" }} bg="warning400" rounded="circle">{record.status}</Tag> :
+            record.status === 'delivered' ?
+            <Tag textColor="success700" bg="success400" p={{ x: "10px", y: "5px" }} rounded="circle">{record.status}</Tag> :
+            record.status === 'cancelled' ?
+            <Tag textColor="danger700" bg="danger200" p={{ x: "10px", y: "5px" }} rounded="circle">{record.status}</Tag>:
+            <Tag p={{ x: "10px", y: "5px" }} rounded="xl">{record.status}</Tag>
         )
-    }
+    },
+    {
+        title: 'Détail',
+        key: 'detail',
+        render: (item) =>(
+            <div className="row-actions">
+                <EyeOutlined className="view-row" />
+            </div>
+        )
+    },
 ]

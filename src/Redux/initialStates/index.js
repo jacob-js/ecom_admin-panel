@@ -1,11 +1,13 @@
 import categorys from "./categorys";
+import orders from "./orders";
 import products from "./products";
 import users from "./users";
 
 const initialStates = {
     users: users,
     products: products,
-    categorys: categorys
+    categorys: categorys,
+    orders: orders
 };
 
 export default initialStates;
