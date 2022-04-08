@@ -11,9 +11,10 @@ import { CloseOutlined, PlusOutlined, RightOutlined } from '@ant-design/icons';
 import Compressor from 'compressorjs';
 import { getCategorysAction } from '../../Redux/actions/categorys';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, updateProductAction } from '../../Redux/actions/products';
+import { createProduct, deleteProductColorAction, updateProductAction } from '../../Redux/actions/products';
 import { Alert } from '@mui/material';
 import ColorForm from './ColorForm';
+import { sendNotif } from '../../Utils/helpers';
 
 const { Option } = AntSelect;
 
@@ -157,6 +158,19 @@ function EditProductForm({onClose, visible, product}) {
     }
   };
 
+  const onDeleteColor = async(color) => {
+    formik.setFieldValue('colors', formik.values.colors.filter(c => c.id !== color.id));
+    try {
+      const res = await deleteProductColorAction(color.id);
+      if(res.status === 200){
+        sendNotif('La couleur a été supprimée avec succès', 'success', 'top-left');
+      }
+    } catch (error) {
+      sendNotif('Une erreur est survenue lors de la suppression de la couleur', 'error', 'top-left');
+      formik.setFieldValue('colors', [...formik.values.colors, color]);
+    }
+  }
+
   return (
     <Drawer width={950}
         placement='right' visible={visible} onClose={onClose}
@@ -211,7 +225,7 @@ function EditProductForm({onClose, visible, product}) {
                   />:
                   field.type === 'select' ?
                   <AntSelect name={field.name}
-                    className={`select ${formik.errors[field.name] ? 'error': ''}`}
+                    className={`select ${formik.touched[field.name] && formik.errors[field.name] ? 'error': ''}`}
                     placeholder={field.placeholder}
                     onChange={value => formik.setFieldValue(field.name, value)}
                     value={formik.values[field.name]}
@@ -247,7 +261,7 @@ function EditProductForm({onClose, visible, product}) {
                     size='middle'
                     placeholder="Please select"
                     onChange={value => formik.setFieldValue(field.name, value)}
-                    className={`select ${formik.errors[field.name] ? 'error': ''}`}
+                    className={`select ${formik.touched[field.name] && formik.errors[field.name] ? 'error': ''}`}
                     value={formik.values.sizes}
                   >
                       {
@@ -265,7 +279,7 @@ function EditProductForm({onClose, visible, product}) {
                   />
                 }
                 {
-                  formik.errors[field.name] &&
+                  formik.touched[field.name] && formik.errors[field.name] &&
                   <FieldError>{formik.errors[field.name]}</FieldError>
                 }
               </div>
@@ -309,7 +323,7 @@ function EditProductForm({onClose, visible, product}) {
                   <Button type="default" shape="circle" icon={
                     <CloseOutlined />
                   } 
-                  onClick={() => formik.setFieldValue('colors', formik.values.colors.filter((s, i) => i !== index))}
+                  onClick={() => onDeleteColor(color)}
                   size='small'
                   danger
                   />
@@ -321,7 +335,7 @@ function EditProductForm({onClose, visible, product}) {
         </div>
 
         <SpecForm visible={visibleSpecForm} onClose={() => setVisibleSpecForm(false)} onSubmit={onSpecSubmit} />
-        <ColorForm visible={visibleColorForm} onClose={() => setVisibleColorForm(false)} onSubmit={onColorSubmit} />
+        <ColorForm visible={visibleColorForm} onClose={() => setVisibleColorForm(false)} onSubmit={onColorSubmit} product={product} />
 
         <Button type='primary' className='btn submit-prod' block htmlType='submit' loading={loading}>Sauvegarder</Button>
       </FormContainer>

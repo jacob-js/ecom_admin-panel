@@ -6,6 +6,8 @@ import { FieldContainer, FieldError, FormContainer, Input, Label, Title } from '
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { handleImageUpload } from '../../Utils/helpers';
+import { addProductColorAction } from '../../Redux/actions/products';
+import { Alert } from '@mui/material';
 
 const fields = [
     {
@@ -18,17 +20,33 @@ const schema = yup.object({
     image: yup.mixed().required('L\'image du produit est obligatoire')
 })
 
-export default function ColorForm({ visible, onClose, onSubmit }) {
+export default function ColorForm({ visible, onClose, onSubmit, product }) {
     const [ pic, setPic ] = useState();
+    const [error, setError] = useState();
+    const [loading, setLoading] = useState();
     const inputFileRef = useRef();
     const formik = useFormik({
         initialValues: { name: '', image: '' },
         validationSchema: schema,
-        onSubmit: (values) => {
-            onSubmit({...values, preview: pic})
-            formik.resetForm();
-            onClose();
-            setPic(null);
+        onSubmit: async(values) => {
+            const formData = new FormData();
+            formData.append('name', values.name);
+            formData.append('image', values.image);
+            formData.append('productId', product.id);
+            setLoading(true);
+            try {
+                const res = await addProductColorAction(formData);
+                if(res.status === 201) {
+                    onSubmit(res.data.data);
+                    formik.resetForm();
+                    onClose();
+                    setPic(null);
+                }
+            } catch (error) {
+                const res = error.response;
+                setError(res?.data?.message || "Une erreur est survenue lors de l'ajout de la couleur");
+            }
+            setLoading(false);
         }
     });
 
@@ -46,6 +64,7 @@ export default function ColorForm({ visible, onClose, onSubmit }) {
         onOk={formik.handleSubmit}
         cancelText="Annuler"
         okText="Ajouter"
+        okButtonProps={{ loading: loading, className: 'btn' }}
     >
         <Title style={{
             fontSize: '20px',
@@ -53,6 +72,12 @@ export default function ColorForm({ visible, onClose, onSubmit }) {
             marginBottom: 20
         }}>Ajouter une couleure du produit</Title>
         <FormContainer>
+            {
+                typeof(error) === 'string' ?
+                <Alert severity='error' className='alert' > {error} </Alert>:
+                typeof(error) === 'object' ?
+                error.map(err => <Alert severity='error' className='alert' > {err?.message} </Alert>) :null
+            }
             <FieldContainer className='field'>
                 <Label>Image du produit pour la couleur: {formik.values.name}</Label>
                 <input type="file" name="image" id="image" style={{ display: 'none' }} ref={inputFileRef} onChange={onImgChange} />

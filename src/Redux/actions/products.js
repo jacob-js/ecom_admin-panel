@@ -106,4 +106,14 @@ export const updateProductAction = (id, data) => async(dispatch, cb) =>{
             })
         }
     }
-}
+};
+
+export const addProductColorAction = async(data) =>{
+    const res = await axios.post(`/api/v1/products/colors`, data);
+    return res;
+};
+
+export const deleteProductColorAction = async(id) =>{
+    const res = await axios.delete(`/api/v1/products/colors/${id}`);
+    return res;
+};
