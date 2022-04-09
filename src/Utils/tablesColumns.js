@@ -184,7 +184,7 @@ export const subCategorysColumns = (onDelete, loadingDelete, id) => [
     }
 ]
 
-export const ordersColumns = [
+export const ordersColumns = (onViewOrder) => [
     {
         title: 'Reference',
         key: 'reference',
@@ -225,7 +225,7 @@ export const ordersColumns = [
         key: 'detail',
         render: (item) =>(
             <div className="row-actions">
-                <EyeOutlined className="view-row" />
+                <EyeOutlined className="view-row" onClick={() =>onViewOrder(item)} />
             </div>
         )
     },

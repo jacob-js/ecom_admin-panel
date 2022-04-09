@@ -29,7 +29,7 @@ export default function ProductTypeForm({visible, setVisible}) {
             formData.append('name', values.name);
             formData.append('icon', file)
             createProductTypeAction(formData)(dispatch, cb =>{
-                if(cb){ setVisible(false) }
+                if(cb){ setVisible(false); formik.resetForm(); setFile(null); setPic(null); }
             })
         }
     })
@@ -61,7 +61,7 @@ export default function ProductTypeForm({visible, setVisible}) {
             <Button className='btn btn-submit' loading={loading} type='primary' onClick={formik.handleSubmit}>Enregistrer</Button>
         }
     >
-        <FormContainer className='type-form'>
+        <FormContainer className='type-form' onSubmit={formik.handleSubmit}>
             <div className="title">Ajouter un type de produit</div>
             {
                 error ?
@@ -94,6 +94,7 @@ export default function ProductTypeForm({visible, setVisible}) {
                 <Input placeholder='Nom' 
                     className={formik.touched.name && formik.errors.name ? 'error': ''}
                     onChange={formik.handleChange('name')}
+                    value={formik.values.name}
                 />
                 {
                     formik.touched.name && formik.errors.name && <FieldError>{formik.errors.name}</FieldError>

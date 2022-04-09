@@ -38,7 +38,7 @@ export default function CategoryForm({visible, setVisible}) {
             formData.append('isTop', values.isTop);
             formData.append('cover', file);
             createCategoryAction(formData)(dispatch, cb =>{
-                if(cb){ setVisible(false) }
+                if(cb){ setVisible(false); formik.resetForm(); setFile(null); setPic(null); }
             })
         }
     })
@@ -103,6 +103,7 @@ export default function CategoryForm({visible, setVisible}) {
                 <Input placeholder='Nom'
                     className={formik.touched.name && formik.errors.name ? 'error': ''}
                     onChange={formik.handleChange('name')}
+                    value={formik.values.name}
                 />
                 {
                     formik.touched.name && formik.errors.name && <FieldError>{formik.errors.name}</FieldError>
@@ -116,6 +117,7 @@ export default function CategoryForm({visible, setVisible}) {
                     className={`select ${formik.touched.productType && formik.errors.productType ? 'error': ''}`}
                     onChange={(value) => formik.setFieldValue('productType', value)}
                     loading={loadingParents}
+                    defaultValue={formik.values.productType}
                 >
                     {
                         parentCategs.map(type =>(
