@@ -4,7 +4,7 @@ import { Tag } from "atomize";
 import moment from "moment";
 import { MdOutlineCategory } from "react-icons/md";
 
-export const productsColumns = (onDelete, loadingDelete, id, viewEdit) => [
+export const productsColumns = (onDelete, loadingDelete, id, viewEdit, onDetailView) => [
     {
         title: 'Nom du produit',
         key: 'name',
@@ -49,7 +49,7 @@ export const productsColumns = (onDelete, loadingDelete, id, viewEdit) => [
         key: 'detail',
         render: (item) =>(
             <div className="row-actions">
-                <EyeOutlined className="view-row" />
+                <EyeOutlined className="view-row" onClick={() =>onDetailView(item)} />
             </div>
         )
     },

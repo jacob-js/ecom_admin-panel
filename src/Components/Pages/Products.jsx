@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Table } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { deleteProd, getProductsAction } from '../../Redux/actions/products';
 import { productsColumns } from '../../Utils/tablesColumns'
 import { Input, Select } from '../Commons/commons';
@@ -29,6 +30,7 @@ function Products() {
     const { loading, rows, count } = useSelector(({ products: { products } }) =>products);
     const { loading: loadingDelete, id } = useSelector(({ products: { deleteProd } }) =>deleteProd);
     const dispatch = useDispatch();
+    const history = useHistory();
     const limit = 10;
     const [offset, setOffset] = useState(0);
 
@@ -43,6 +45,10 @@ function Products() {
     const onViewEditForm = (product) =>{
         setVisibleEditForm(true);
         setEditable(product);
+    }
+
+    const onDetailView = (product) =>{
+        history.push(`/products/${product.id}`);
     }
 
   return (
@@ -72,7 +78,7 @@ function Products() {
         </div>
 
         <div className="content">
-            <Table dataSource={rows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id, onViewEditForm)} 
+            <Table dataSource={rows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id, onViewEditForm, onDetailView)} 
                 className='table'
                 pagination={{
                     total: count,

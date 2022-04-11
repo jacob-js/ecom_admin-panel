@@ -4,3 +4,4 @@ export { default as Dashboard } from './Pages/Dashboard';
 export { default as Nav } from './Nav';
 export { default as Categorys } from './Pages/Categorys';
 export { default as Orders } from './Pages/Orders';
+export { default as ProductDetails } from './Pages/ProductDetails';

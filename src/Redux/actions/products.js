@@ -117,3 +117,11 @@ export const deleteProductColorAction = async(id) =>{
     const res = await axios.delete(`/api/v1/products/colors/${id}`);
     return res;
 };
+
+export const getProductById = async (id) => {
+    return (await axios.get(`/api/v1/products/${id}`))
+}
+
+export const getProductRatings = async (id) => {
+    return (await axios.get(`/api/v1/products/ratings/${id}`))?.data?.data
+}

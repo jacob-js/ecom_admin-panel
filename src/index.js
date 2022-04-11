@@ -11,19 +11,23 @@ import { StyleReset } from 'atomize';
 import { Provider } from 'react-redux';
 import store from './Redux/store';
 import axios from 'axios';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const debug = process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
 const engine = new Styletron();
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.headers.common['bweteta_token'] = localStorage.getItem('authtoken');
+const queryClient = new QueryClient();
 
 ReactDOM.render(
   <StyletronProvider value={engine} debug={debug} debugAfterHydration>
     <StyleReset />
     <Provider store={store}>
-      <Router>
-        <Routes />
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes />
+        </Router>
+      </QueryClientProvider>
     </Provider>
   </StyletronProvider>,
   document.getElementById('root')
