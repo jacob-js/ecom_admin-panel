@@ -1,4 +1,4 @@
-import { DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined, LoadingOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Popconfirm } from "antd";
 import { Tag } from "atomize";
 import moment from "moment";
@@ -230,3 +230,51 @@ export const ordersColumns = (onViewOrder) => [
         )
     },
 ]
+
+export const usersColumns = () => [
+    {
+        render: user =>(
+            <Avatar src={user.cover ? user.cover: null} icon={<UserOutlined />} />
+        )
+    },
+    {
+        title: 'ID',
+        dataIndex: 'id'
+    },
+    {
+        title: "Date d'inscription",
+        render: (user) =>(
+            <span>{moment(user.createdAt).format('DD-MM-YYYY')}</span>
+        )
+    },
+    {
+        title: 'Nom',
+        dataIndex: 'fullname'
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email'
+    },
+    {
+        title: 'Phone',
+        dataIndex: 'phone'
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (item) =>(
+            <div className="row-actions">
+                <EyeOutlined className="edit-row" /> {
+                    <Popconfirm 
+                        onConfirm title="Etes-vous sûr de vouloir supprimer ?"
+                        okText="Confirmer"
+                        cancelText='Annuler'
+                        okType="danger"
+                    >
+                        <DeleteOutlined className="delete-row" />
+                    </Popconfirm>
+                }
+            </div>
+        )
+    }
+];

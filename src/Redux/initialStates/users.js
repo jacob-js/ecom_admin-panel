@@ -14,6 +14,13 @@ const users = {
         loading: false,
         error: null,
         data: {}
+    },
+    users: {
+        loading: false,
+        error: null,
+        data: {},
+        rows: [],
+        count: 0
     }
 }
 

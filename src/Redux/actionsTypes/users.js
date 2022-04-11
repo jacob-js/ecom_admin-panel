@@ -5,7 +5,11 @@ const usersActionsTypes = {
 
     LOGIN_START: 'LOGIN_START',
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
-    LOGIN_ERROR: 'LOGIN_ERROR'
+    LOGIN_ERROR: 'LOGIN_ERROR',
+
+    GET_USERS_START: 'GET_USERS_START',
+    GET_USERS_SUCCESS: 'GET_USERS_SUCCESS',
+    GET_USERS_ERROR: 'GET_USERS_ERROR'
 };
 
 export default usersActionsTypes;

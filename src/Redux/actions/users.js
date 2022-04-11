@@ -59,3 +59,29 @@ export const loginAction = (data) => async(dispatch, history) =>{
         }
     }
 }
+
+export const getUsersAction = (limit, offset) => async(dispatch) =>{
+    dispatch({ type: usersActionsTypes.GET_USERS_START });
+    try {
+        const res = await axios.get(`/api/v1/users?limit=${limit}&offset=${offset}`)
+        if(res.status === 200){
+            dispatch({
+                type: usersActionsTypes.GET_USERS_SUCCESS,
+                payload: res.data.data
+            })
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: usersActionsTypes.GET_USERS_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: usersActionsTypes.GET_USERS_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            })
+        }
+    }
+}

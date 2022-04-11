@@ -24,7 +24,7 @@ const items = [
       path: '/categorys'
   },
   {
-      name: 'Utilisateurs',
+      name: 'Clients',
       icon: <FiUsers />,
       path: '/users'
   },
