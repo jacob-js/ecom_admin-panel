@@ -21,6 +21,11 @@ const users = {
         data: {},
         rows: [],
         count: 0
+    },
+    admins: {
+        loading: false,
+        error: null,
+        data: []
     }
 }
 

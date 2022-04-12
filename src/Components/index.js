@@ -6,3 +6,4 @@ export { default as Categorys } from './Pages/Categorys';
 export { default as Orders } from './Pages/Orders';
 export { default as ProductDetails } from './Pages/ProductDetails';
 export { default as Users } from './Pages/Users';
+export { default as Staff } from './Pages/Staffs';

@@ -278,3 +278,61 @@ export const usersColumns = () => [
         )
     }
 ];
+
+export const staffColumns = () => [
+    {
+        render: admin =>(
+            <Avatar src={admin?.User.cover ? admin?.User.cover: null} icon={<UserOutlined />} />
+        )
+    },
+    {
+        title: 'ID',
+        dataIndex: 'id'
+    },
+    {
+        title: 'Nom',
+        render: (admin) =>(
+            <span>{admin?.User.fullname}</span>
+        )
+    },
+    {
+        title: 'Email',
+        render: (admin) =>(
+            <span>{admin?.User.email}</span>
+        )
+    },
+    {
+        title: 'Phone',
+        render: (admin) =>(
+            <span>{admin?.User.phone}</span>
+        )
+    },
+    {
+        title: "Date d'entrée",
+        render: (user) =>(
+            <span>{moment(user.createdAt).format('DD-MM-YYYY')}</span>
+        )
+    },
+    {
+        title: 'Rôle',
+        dataIndex: 'role'
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (item) =>(
+            <div className="row-actions">
+                <EyeOutlined className="edit-row" /> {
+                    <Popconfirm 
+                        onConfirm title="Etes-vous sûr de vouloir supprimer ?"
+                        okText="Confirmer"
+                        cancelText='Annuler'
+                        okType="danger"
+                    >
+                        <DeleteOutlined className="delete-row" />
+                    </Popconfirm>
+                }
+            </div>
+        )
+    }
+];

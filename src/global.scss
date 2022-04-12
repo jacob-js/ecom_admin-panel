@@ -150,6 +150,16 @@ body{
         }
     }
 }
+.select{
+    width: 100%;
+    .ant-select-selector{
+        background-color: 'white';
+        border-radius: 10px !important;
+        height: 42px !important;
+        display: flex;
+        align-items: center;
+    }
+}
 
 @import './Assets/styles/auth.scss';
 @import './Assets/styles/nav.scss';

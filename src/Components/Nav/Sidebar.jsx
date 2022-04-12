@@ -41,7 +41,7 @@ const items = [
   {
       name: 'Notre équipe',
       icon: <ImUserTie />,
-      path: '/bonus',
+      path: '/staff',
   },
   {
       name: 'Parametres',

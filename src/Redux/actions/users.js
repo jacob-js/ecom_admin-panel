@@ -85,3 +85,29 @@ export const getUsersAction = (limit, offset) => async(dispatch) =>{
         }
     }
 }
+
+export const getAdminsAction = async(dispatch) =>{
+    dispatch({ type: usersActionsTypes.GET_ADMINS_START });
+    try {
+        const res = await axios.get(`/api/v1/users/admins`);
+        if(res.status === 200){
+            dispatch({
+                type: usersActionsTypes.GET_ADMINS_SUCCESS,
+                payload: res.data.data
+            })
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: usersActionsTypes.GET_ADMINS_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: usersActionsTypes.GET_ADMINS_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            })
+        }
+    }
+}
