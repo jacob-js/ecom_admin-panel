@@ -160,4 +160,12 @@ export const deleteAdmin = (id) =>async(dispatch) =>{
         });
         sendNotif(res?.data?.message || error.message, 'error')
     }
-}
+};
+
+export const logoutAction = (dispatch, history) =>{
+    localStorage.removeItem('auth_token');
+    dispatch({
+        type: usersActionsTypes.LOGOUT
+    });
+    history.push("/login")
+} 

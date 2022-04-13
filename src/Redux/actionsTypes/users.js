@@ -22,6 +22,8 @@ const usersActionsTypes = {
     DELETE_ADMIN_START: 'DELETE_ADMIN_START',
     DELETE_ADMIN_SUCCESS: 'DELETE_ADMIN_SUCCESS',
     DELETE_ADMIN_ERROR: 'DELETE_ADMIN_ERROR',
+
+    LOGOUT: "LOGOUT"
 };
 
 export default usersActionsTypes;

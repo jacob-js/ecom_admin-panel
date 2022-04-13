@@ -55,6 +55,7 @@
         }
 
         &.signup{
+            min-height: 600px;
             .left{
                 &::after{
                     background-image: url('../images/user-sign-up.png');

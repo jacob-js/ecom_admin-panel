@@ -38,6 +38,16 @@ const login = (state, {type, payload}) =>{
                     error: payload
                 }
             }
+
+        case usersActionsTypes.LOGOUT:
+            return{
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    auth: false,
+                    data: {}
+                }
+            }
     
         default:
             break;

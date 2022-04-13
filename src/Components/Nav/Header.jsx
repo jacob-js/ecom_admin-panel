@@ -4,10 +4,15 @@ import { FiLogOut } from 'react-icons/fi'
 import React from 'react'
 import { RiDashboardLine } from 'react-icons/ri'
 import { SettingOutlined } from '@ant-design/icons'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { ImUser } from 'react-icons/im'
+import { logoutAction } from '../../Redux/actions/users'
+import { useHistory } from 'react-router-dom'
 
 function Header() {
   const { data } = useSelector(({ users: { currentUser } }) => currentUser);
+  const dispatch = useDispatch();
+  const history = useHistory();
   const popoverUserContent = (
     <div className="user-popover">
       <div className="item">
@@ -16,7 +21,7 @@ function Header() {
       <div className="item">
         <SettingOutlined className='icon' /> Profile
       </div>
-      <div className="item">
+      <div className="item" onClick={() =>logoutAction(dispatch, history)}>
         <FiLogOut className='icon' /> Deconnexion
       </div>
     </div>
@@ -32,7 +37,10 @@ function Header() {
       </div>
       <div className="user-avatar">
           <Popover content={popoverUserContent} trigger='click' placement='bottomRight'>
-              <Avatar className='u-avatar' size={40} src={data.cover ? data.cover: "https://i.ibb.co/WpM5yZZ/9.png"} />
+              <Avatar className='u-avatar' size={40}
+                src={data.cover ? data.cover: null} 
+                icon={<ImUser />}
+              />
           </Popover>
       </div>
     </div>

@@ -16,14 +16,12 @@ const schema = yup.object({
   password: yup.string().min(6, "Le mot de passe doit contenir au moins 6 caractères")
               .required("Le mot de passe est requis").matches(/[a-zA-Z]/, "Le mot de passe doit contenir au moins une lettre")
               .matches(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre"),
-  state: yup.string().required("La province est requise"),
   phone: yup.string().required("Le numéro de téléphone est requis")
                       .matches(/^[+243]/, "Le numéro de téléphone doit commencer avec +243"),
   confirmPassword: yup.string().when('password', {
       is: (password) => password && password.length >= 6 && password.match(/[a-zA-Z]/) && password.match(/[0-9]/),
       then: yup.string().required('Veuillez confirmer le mot de passe').oneOf([yup.ref('password')], 'Les mots de passe ne correspondent pas'),
-  }),
-  profession: yup.string().required('La profession est requise')
+  })
 })
 
 function Signup() {
@@ -31,7 +29,7 @@ function Signup() {
   const [error, seterror] = useState([]);
   const history = useHistory();
   const form = useFormik({
-    initialValues: { fullname: '', password: '', email: '', phone: '', state: '', confirmPassword: '', country: 'DRC', profession: '' },
+    initialValues: { fullname: '', password: '', email: '', phone: '', confirmPassword: '' },
     // onSubmit: values =>  mutation.mutate(values),
     validationSchema: schema
   });
@@ -72,29 +70,6 @@ function Signup() {
                       } onChange={form.handleChange('email')} />
                       {form.errors.email && form.touched.email ? <FieldError>{form.errors.email}</FieldError> : 
                       getFieldError(error, 'email') ? <FieldError>{getFieldError(error, 'email')}</FieldError> : null}
-                  </FieldContainer>
-                  <FieldContainer>
-                      <Input type="text" placeholder="Profession" className={
-                          form.errors.profession && form.touched.profession || getFieldError(error, 'profession') ? 'error' : ''
-                      } onChange={form.handleChange('profession')}
-                        name='profession' id='profession' autoComplete="nope"
-                      />
-                      {form.errors.profession && form.touched.profession ? <FieldError>{form.errors.profession}</FieldError> : 
-                      getFieldError(error, 'profession') ? <FieldError>{getFieldError(error, 'profession')}</FieldError> : null}
-                  </FieldContainer>
-                  <FieldContainer>
-                      <Select placeholder='Province' defaultValue="d" onChange={form.handleChange('state')} className={
-                          form.errors.state && form.touched.state || getFieldError(error, 'state') ? 'error' : ''
-                      } >
-                          <option value="d" disabled>Selectionner la province</option>
-                          {
-                              provinces.map((province, index) => {
-                                  return <option key={index} value={province}>{province}</option>
-                              })
-                          }
-                          {form.errors.state && form.touched.state ? <FieldError>{form.errors.state}</FieldError> : 
-                          getFieldError(error, 'state') ? <FieldError>{getFieldError(error, 'state')}</FieldError> : null}
-                      </Select>
                   </FieldContainer>
                   <FieldContainer>
                       <PasswordInput form={form} field='password' />
