@@ -279,7 +279,7 @@ export const usersColumns = () => [
     }
 ];
 
-export const staffColumns = () => [
+export const staffColumns = (onDelete, id, loadingDelete) => [
     {
         render: admin =>(
             <Avatar src={admin?.User.cover ? admin?.User.cover: null} icon={<UserOutlined />} />
@@ -323,8 +323,11 @@ export const staffColumns = () => [
         render: (item) =>(
             <div className="row-actions">
                 <EyeOutlined className="edit-row" /> {
+                    loadingDelete && item.id === id ?
+                    <LoadingOutlined />:
                     <Popconfirm 
-                        onConfirm title="Etes-vous sûr de vouloir supprimer ?"
+                        onConfirm={() =>onDelete(item)}
+                        title="Etes-vous sûr de vouloir supprimer ?"
                         okText="Confirmer"
                         cancelText='Annuler'
                         okType="danger"

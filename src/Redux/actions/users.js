@@ -1,4 +1,5 @@
 import axios from "axios";
+import { sendNotif } from "../../Utils/helpers";
 import usersActionsTypes from "../actionsTypes/users"
 
 export const getCurrentUserAction = async(dispatch) =>{
@@ -109,5 +110,54 @@ export const getAdminsAction = async(dispatch) =>{
                 payload: error?.message || 'Erreur de chargement, veuillez réessayer'
             })
         }
+    }
+}
+
+export const createAdminAction = (data) => async (dispatch, cb) =>{
+    dispatch({ type: usersActionsTypes.CREATE_ADMIN_START });
+    try {
+        const res = await axios.post(`/api/v1/users/admins`, data);
+        if(res.status === 201){
+            dispatch({
+                type: usersActionsTypes.CREATE_ADMIN_SUCCESS,
+                payload: res.data.data
+            });
+            cb(true);
+            sendNotif(res.data.message, 'success')
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: usersActionsTypes.CREATE_ADMIN_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: usersActionsTypes.CREATE_ADMIN_ERROR,
+                payload: error?.message
+            })
+        }
+    }
+}
+
+export const deleteAdmin = (id) =>async(dispatch) =>{
+    dispatch({ type: usersActionsTypes.DELETE_ADMIN_START, payload: id });
+    try {
+        const res = await axios.delete(`/api/v1/users/admins/${id}`);
+        if(res.status === 200){
+            dispatch({
+                type: usersActionsTypes.DELETE_ADMIN_SUCCESS,
+                payload: id
+            });
+            sendNotif(res.data.message, 'success')
+        }
+    } catch (error) {
+        const res = error.response;
+        dispatch({
+            type: usersActionsTypes.DELETE_ADMIN_ERROR,
+            payload: res?.data?.message || error.message
+        });
+        sendNotif(res?.data?.message || error.message, 'error')
     }
 }

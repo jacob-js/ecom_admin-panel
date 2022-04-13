@@ -26,6 +26,16 @@ const users = {
         loading: false,
         error: null,
         data: []
+    },
+    createAdmin: {
+        loading: false,
+        error: null,
+        data: {}
+    },
+    deleteAdmin: {
+        loading: false,
+        error: null,
+        id: null
     }
 }
 
