@@ -168,4 +168,39 @@ export const logoutAction = (dispatch, history) =>{
         type: usersActionsTypes.LOGOUT
     });
     history.push("/login")
-} 
+}
+
+export const signupAction = (data) => async(dispatch, history) =>{
+    dispatch({ type: usersActionsTypes.SIGNUP_START });
+    try {
+        const res = await axios.post(`/api/v1/users`, data);
+        if(res.status === 201){
+            dispatch({
+                type: usersActionsTypes.SIGNUP_SUCCESS,
+                payload: res.data.data?.user
+            });
+            history.push('/confirm-account', { phone: data.phone })
+        }
+    } catch (error) {
+        const res = error.response;
+        if(res){
+            dispatch({
+                type: usersActionsTypes.SIGNUP_ERROR,
+                payload: res.data?.message
+            })
+        }else{
+            dispatch({
+                type: usersActionsTypes.SIGNUP_ERROR,
+                payload: error?.message || 'Erreur de chargement, veuillez réessayer'
+            })
+        }
+    }
+}
+
+export const verifyAccountApi = (data) =>{
+    return axios.post(`/api/v1/users/verify`, data)
+};
+
+export const sendOtpApi = (username) =>{
+    return axios.get(`/users/send-otp/${username}`)
+}

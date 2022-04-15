@@ -9,6 +9,8 @@ import { provinces } from '../../Utils/data';
 import { Button } from 'antd';
 import { PasswordInput, FieldContainer, FieldError, FormContainer, Input, Link, Select, Title  } from '../Commons/commons';
 import Aos from 'aos'
+import { signupAction } from '../../Redux/actions/users';
+import { useDispatch, useSelector } from 'react-redux'
 
 const schema = yup.object({
   fullname: yup.string().required("Le nom complet est requis"),
@@ -25,12 +27,12 @@ const schema = yup.object({
 })
 
 function Signup() {
-  const [loading, setloading] = useState(false);
-  const [error, seterror] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector(({ users: { signup } }) =>signup);
   const form = useFormik({
     initialValues: { fullname: '', password: '', email: '', phone: '', confirmPassword: '' },
-    // onSubmit: values =>  mutation.mutate(values),
+    onSubmit: values => signupAction(values)(dispatch, history),
     validationSchema: schema
   });
 
@@ -47,8 +49,8 @@ function Signup() {
               <Title className='title'>Inscription</Title>
               <div className="fields">
                   {
-                      typeof(error[0]) === 'string' ?
-                      <Alert severity='error' className='alert' > {error[0]} </Alert>:null
+                      typeof(error) === 'string' ?
+                      <Alert severity='error' className='alert' > {error} </Alert>:null
                   }
                   <FieldContainer>
                       <Input type="text" placeholder="Nom complet" className={

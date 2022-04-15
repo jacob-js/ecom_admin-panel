@@ -5,6 +5,7 @@ import getAdmins from "./getAdmins";
 import getCurrent from "./getCurrent";
 import getUsers from "./getUsers";
 import login from "./login";
+import signup from "./signup";
 
 const users = (state = initialStates.users, action={}) =>({
     ...state,
@@ -13,7 +14,8 @@ const users = (state = initialStates.users, action={}) =>({
     ...getUsers(state, action),
     ...getAdmins(state, action),
     ...createAdmin(state, action),
-    ...deleteAdmin(state, action)
+    ...deleteAdmin(state, action),
+    ...signup(state, action)
 });
 
 export default users;

@@ -6,8 +6,8 @@ export const protectedRoutesWithNav = (routes=[]) => routes.filter(route => rout
 export const notProtectedRoutesWithNav = (routes=[]) => routes.filter(route => !route.protected && route.nav);
 
 
-export const getFieldError = (errors, field) => {
-    return errors?.filter(error => error.key === field)[0]?.message;
+export const getFieldError = (errors=[], field) => {
+    return Array.isArray(errors) && errors?.filter(error => error.key === field)[0]?.message;
 }
 
 export function useQuery(location) {

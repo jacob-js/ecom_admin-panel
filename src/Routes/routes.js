@@ -1,4 +1,4 @@
-import { Categorys, Dashboard, Login, Orders, ProductDetails, Signup, Staff, Users } from '../Components'
+import { Categorys, ConfirmAccount, Dashboard, Login, Orders, ProductDetails, Signup, Staff, Users } from '../Components'
 import Products from '../Components/Pages/Products'
 
 export const routes = [
@@ -73,5 +73,13 @@ export const routes = [
         exact: true,
         protected: true,
         nav: true
+    },
+    {
+        name: 'Confirm Account',
+        path: '/confirm-account',
+        component: ConfirmAccount,
+        exact: true,
+        protected: false,
+        authRoute: true
     }
 ]

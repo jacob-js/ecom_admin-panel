@@ -9,7 +9,7 @@ function Dashboard() {
   return (
     <div className='dashboard'>
       <div className="header">
-        <div className="title">Aperçu du tableau de bord</div>
+        <div className="title">Tableau de bord</div>
       </div>
       <div className="content">
         <section className="orders-stats">

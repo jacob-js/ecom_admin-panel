@@ -65,5 +65,24 @@
                 }
             }
         }
+        &.confirm-account{
+            width: 450px;
+            min-height: auto;
+            padding: 40px;
+    
+            form{
+                width: 100%;
+            }
+            .title{
+                margin-bottom: 20px;
+            }
+            p.descript{
+                margin-bottom: 20px;
+            }
+            .resend-link{
+                text-align: center;
+                margin-top: 15px;
+            }
+        }
     }
 }
