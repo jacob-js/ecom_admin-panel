@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { Alert } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { sendOtpApi, verifyAccountApi } from '../../Redux/actions/users';
+import { verifyAccountApi } from '../../Redux/actions/users';
 import { sendNotif, getFieldError } from '../../Utils/helpers';
 import Aos from 'aos';
 
@@ -19,7 +19,7 @@ function ConfirmAccount() {
     const [loading, setloading] = useState(false);
     const [error, seterror] = useState();
     const history = useHistory();
-    const phone = history.location.state?.phone
+    const token = history.location.state?.token
 
     useEffect(() =>{
         Aos.init({ duration: 500 });
@@ -44,23 +44,9 @@ function ConfirmAccount() {
         }
     })
 
-    const sendOtpMutation = useMutation(() =>sendOtpApi(phone), {
-        onSuccess: (res) => {
-            sendNotif('Code envoyé avec succès', 'success');
-        },
-        onError: (error) => {
-            const res = error.response;
-            if (res) {
-                seterror(res.data.message);
-            } else {
-                sendOtpMutation.mutate();
-            }
-        }
-    })
-
     const form = useFormik({
-        initialValues: { username: localStorage.getItem('user_phone'), code: '' },
-        onSubmit: values =>  mutation.mutate({...values, username: phone}),
+        initialValues: { code: '' },
+        onSubmit: values =>  mutation.mutate({...values, token: token}),
         validationSchema: schema
     });
 
@@ -85,7 +71,7 @@ function ConfirmAccount() {
                         <Button loading={loading} className='btn login' htmlType='submit' icon={ <ArrowRightOutlined /> } block>
                             Vérifier
                         </Button>
-                        <div className="resend-link">{ sendOtpMutation.isLoading ? 'Chargement ...': <Link onClick={() =>sendOtpMutation.mutate()}>Renvoyer le code</Link> }</div>
+                        <div className="resend-link">{ false ? 'Chargement ...': <Link>Renvoyer le code</Link> }</div>
                     </div>
                 </FormContainer>
             </div>

@@ -174,12 +174,12 @@ export const signupAction = (data) => async(dispatch, history) =>{
     dispatch({ type: usersActionsTypes.SIGNUP_START });
     try {
         const res = await axios.post(`/api/v1/users`, data);
-        if(res.status === 201){
+        if(res.status === 200){
             dispatch({
                 type: usersActionsTypes.SIGNUP_SUCCESS,
                 payload: res.data.data?.user
             });
-            history.push('/confirm-account', { phone: data.phone })
+            history.push({ pathname: '/confirm-account', state: { token: res.data.data?.token } })
         }
     } catch (error) {
         const res = error.response;

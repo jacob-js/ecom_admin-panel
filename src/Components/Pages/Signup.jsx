@@ -11,6 +11,7 @@ import { PasswordInput, FieldContainer, FieldError, FormContainer, Input, Link, 
 import Aos from 'aos'
 import { signupAction } from '../../Redux/actions/users';
 import { useDispatch, useSelector } from 'react-redux'
+import PhoneInput from 'react-phone-number-input';
 
 const schema = yup.object({
   fullname: yup.string().required("Le nom complet est requis"),
@@ -18,8 +19,8 @@ const schema = yup.object({
   password: yup.string().min(6, "Le mot de passe doit contenir au moins 6 caractères")
               .required("Le mot de passe est requis").matches(/[a-zA-Z]/, "Le mot de passe doit contenir au moins une lettre")
               .matches(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre"),
-  phone: yup.string().required("Le numéro de téléphone est requis")
-                      .matches(/^[+243]/, "Le numéro de téléphone doit commencer avec +243"),
+  phone: yup.string().required("Le numéro de téléphone est requis"),
+                      // .matches(/^[+243]/, "Le numéro de téléphone doit commencer avec +243"),
   confirmPassword: yup.string().when('password', {
       is: (password) => password && password.length >= 6 && password.match(/[a-zA-Z]/) && password.match(/[0-9]/),
       then: yup.string().required('Veuillez confirmer le mot de passe').oneOf([yup.ref('password')], 'Les mots de passe ne correspondent pas'),
@@ -60,9 +61,15 @@ function Signup() {
                       getFieldError(error, 'fullname') ? <FieldError>{getFieldError(error, 'fullname')}</FieldError> : null}
                   </FieldContainer>
                   <FieldContainer>
-                      <Input type="text" placeholder="N° de téléphone" className={
-                          form.errors.phone && form.touched.phone || getFieldError(error, 'phone') ? 'error' : ''
-                      } onChange={form.handleChange('phone')} />
+                      <PhoneInput
+                          placeholder="N° de téléphone"
+                          value={form.values.phone}
+                          onChange={value => form.setFieldValue('phone', value)}
+                          className={
+                              `phone-field ${form.errors.phone && form.touched.phone || getFieldError(error, 'phone') ? 'error' : ''}`
+                          }
+                          defaultCountry="CD"
+                      />
                       {form.errors.phone && form.touched.phone ? <FieldError>{form.errors.phone}</FieldError> : 
                       getFieldError(error, 'phone') ? <FieldError>{getFieldError(error, 'phone')}</FieldError> : null}
                   </FieldContainer>
