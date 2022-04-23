@@ -198,10 +198,10 @@ function ProductAddForm({onClose, visible}) {
                         {
                           categs.map(categ =>(
                             <>
-                              <Option value={categ.id} style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{categ.name}</Option>
+                              <Option value={categ.pk} style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{categ.name}</Option>
                               {
                                 categ.SubCategorys?.map(sub =>(
-                                  <Option value={sub.id} key={sub.id}
+                                  <Option value={sub.pk} key={sub.pk}
                                     style={{ marginLeft: 20, fontSize: 13 }}
                                   ><RightOutlined /> {sub.name}</Option>
                                 ))

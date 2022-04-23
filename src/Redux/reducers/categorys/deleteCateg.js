@@ -15,11 +15,11 @@ const deleteCateg = (state, {type, payload}) =>{
         case categorysActionTypes.DELETE_CATEGORY_SUCCESS:
             const { type, id } = payload;
             if(type === 'categ'){
-                state.categorys.data = state.categorys.data.filter(categ => categ.id !== id);
+                state.categorys.data = state.categorys.data.filter(categ => categ.pk !== id);
             }else if(type === 'parent'){
-                state.productTypes.data = state.productTypes.data.filter(categ => categ.id !== id);
+                state.productTypes.data = state.productTypes.data.filter(categ => categ.pk !== id);
             }else{
-                state.subs.data = state.subs.data.filter(categ => categ.id !== id)
+                state.subs.data = state.subs.data.filter(categ => categ.pk !== id)
             }
             return{
                 ...state,

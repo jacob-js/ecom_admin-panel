@@ -93,9 +93,9 @@ export const productTypesColumns = (onDelete, loadingDelete, id) => [
         render: (item) =>(
             <div className="row-actions">
                 <EditOutlined className="edit-row" /> {
-                    loadingDelete && item.id === id ? <LoadingOutlined />:
+                    loadingDelete && item.pk === id ? <LoadingOutlined />:
                     <Popconfirm 
-                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                        onConfirm={() =>onDelete(item.pk)} title="Etes-vous sûr de vouloir supprimer ?"
                         okText="Confirmer"
                         cancelText='Annuler'
                         okType="danger"
@@ -135,9 +135,9 @@ export const categorysColumns = (onDelete, loadingDelete, id) => [
         render: (item) =>(
             <div className="row-actions">
                 <EditOutlined className="edit-row" /> {
-                    loadingDelete && item.id === id ? <LoadingOutlined />:
+                    loadingDelete && item.pk === id ? <LoadingOutlined />:
                     <Popconfirm 
-                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                        onConfirm={() =>onDelete(item.pk)} title="Etes-vous sûr de vouloir supprimer ?"
                         okText="Confirmer"
                         cancelText='Annuler'
                         okType="danger"
@@ -169,9 +169,9 @@ export const subCategorysColumns = (onDelete, loadingDelete, id) => [
         render: (item) =>(
             <div className="row-actions">
                 <EditOutlined className="edit-row" /> {
-                    loadingDelete && item.id === id ? <LoadingOutlined />:
+                    loadingDelete && item.pk === id ? <LoadingOutlined />:
                     <Popconfirm 
-                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                        onConfirm={() =>onDelete(item.pk)} title="Etes-vous sûr de vouloir supprimer ?"
                         okText="Confirmer"
                         cancelText='Annuler'
                         okType="danger"

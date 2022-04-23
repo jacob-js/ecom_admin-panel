@@ -65,7 +65,7 @@ export default function SubCategoryForm({visible, setVisible}) {
                 >
                     {
                         categs.map(categ =>(
-                            <Option value={categ.id} key={categ.id}>{categ.name}</Option>
+                            <Option value={categ.pk} key={categ.pk}>{categ.name}</Option>
                         ))
                     }
                 </AntSelect>

@@ -121,7 +121,7 @@ export default function CategoryForm({visible, setVisible}) {
                 >
                     {
                         parentCategs.map(type =>(
-                            <Option key={type.id} value={type.id}>{type.name}</Option>
+                            <Option key={type.pk} value={type.pk}>{type.name}</Option>
                         ))
                     }
                 </AntSelect>
