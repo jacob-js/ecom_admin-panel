@@ -1,0 +1,98 @@
+.profile{
+    width: 95%;
+    margin: auto;
+    margin-top: 30px;
+    padding-bottom: 50px;
+    .header{
+        .title{
+            font-size: 20px;
+            font-weight: 550;
+            margin-bottom: 20px;
+            .icon{
+                color: $color_default;
+                margin-right: 10px;
+            }
+        }
+        .menu{
+            display: none;
+        }
+    }
+    .profile-form{
+        position: relative;
+        overflow: hidden;
+        background-color: white;
+        border-radius: 7px;
+        box-shadow: 0 1px 3px rgba(107, 107, 107, 0.1);
+        margin-top: 30px;
+        padding: 0px;
+        padding: 30px;
+        animation: slide .5s ease-in;
+        .pic{
+            width: 100px;
+            height: 100px;
+            background-color: $bg_color;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+            .avatar{
+                width: 100px;
+                height: 100px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img{
+                    max-width: 150%;
+                    max-height: 150%;
+                }
+                .icon{
+                    font-size: 50px;
+                    color: rgb(125, 135, 156);
+                }
+            }
+            .edit-icon{
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                margin-top: 5%;
+                margin-left: 4%;
+                background-color: rgb(125, 135, 156);
+                color: white;
+                cursor: pointer;
+                transition: all .3s ease-in-out;
+                &:hover, &:focus {
+                    background-color: rgb(160, 160, 160);
+                    color: white;
+                }
+            }
+        }
+        .form-row{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            div{
+                width: 47%;
+                label{
+                    font-weight: normal;
+                }
+                .select{
+                    width: 100%;
+                    .ant-select-selector{
+                        width: 100%;
+                    }
+                }
+            }
+            .btn.btn-save{
+                width: 30%;
+                height: 45px;
+                padding: auto 40px;
+            }
+        }
+    }
+}

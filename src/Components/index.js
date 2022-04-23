@@ -8,3 +8,4 @@ export { default as ProductDetails } from './Pages/ProductDetails';
 export { default as Users } from './Pages/Users';
 export { default as Staff } from './Pages/Staffs';
 export { default as ConfirmAccount } from './Pages/ConfirmAccount';
+export { default as Profile } from './Pages/Profile';

@@ -26,3 +26,17 @@ export const provinces = [
     "Tshopo",
     "Tshuapa"
 ];
+
+export const citys = [
+    "Kinshasa",
+    "Goma",
+    "Lubumbashi",
+    "Kisangani",
+    "Mbandaka",
+    "Kananga",
+    "Bukavu",
+    "Kikwit",
+    "Kindu",
+    "butembo",
+    "Bunia"
+];

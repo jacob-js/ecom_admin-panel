@@ -266,7 +266,7 @@ function ProductAddForm({onClose, visible}) {
         </div>
         <SpecForm visible={visibleSpecForm} onClose={() => setVisibleSpecForm(false)} onSubmit={onSpecSubmit} />
 
-        <Button type='primary' className='btn submit-prod' block htmlType='submit' loading={loading}>Sauvegarder</Button>
+        <Button type='primary' className='btn submit-prod' htmlType='submit' loading={loading}>Sauvegarder</Button>
       </FormContainer>
     </Drawer>
   )

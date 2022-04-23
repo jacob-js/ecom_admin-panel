@@ -34,6 +34,11 @@ export default function SpecForm({ visible, onClose, onSubmit }) {
         onOk={formik.handleSubmit}
         cancelText="Annuler"
         okText="Ajouter"
+        okButtonProps={{
+            disabled: !formik.isValid,
+            className: 'btn btn-submit'
+        }}
+        cancelButtonProps={{ style: { borderRadius: 15, height: 40 } }}
     >
         <Title style={{
             fontSize: '20px',

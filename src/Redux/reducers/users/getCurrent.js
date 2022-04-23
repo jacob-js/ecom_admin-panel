@@ -35,6 +35,15 @@ const getCurrent = (state, {type, payload}) => {
                     auth: false
                 }
             }
+
+        case 'UPDATE_USER':
+            return{
+                ...state,
+                currentUser: {
+                    ...state.currentUser,
+                    data: payload
+                }
+            }
     
         default:
             break;

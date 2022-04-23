@@ -203,4 +203,8 @@ export const verifyAccountApi = (data) =>{
 
 export const sendOtpApi = (username) =>{
     return axios.get(`/users/send-otp/${username}`)
+};
+
+export const updateUser = async(id, data) =>{
+    return (await axios.put(`/api/v1/users/details/${id}`, data))?.data
 }

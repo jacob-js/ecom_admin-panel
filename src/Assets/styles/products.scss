@@ -131,6 +131,10 @@
             align-items: center;
         }
     }
+    .btn.submit-prod{
+        width: 50%;
+        margin: auto;
+    }
     .btn.add-spec{
         margin-left: 10px;
         height: calc(40px * 50 / 100);
@@ -141,6 +145,7 @@
         box-shadow: none;
         text-transform: capitalize;
         font-size: 14px;
+        border-radius: 20px;
         &:hover, &:focus {
             background-color: white !important;
             color: $color_default;
