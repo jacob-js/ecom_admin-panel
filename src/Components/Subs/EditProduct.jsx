@@ -69,7 +69,7 @@ const fields = [
 export const productSchema = yup.object({
   name: yup.string().required('Le nom du produit est réquis'),
   description: yup.string().required('La description est réquise'),
-  categoryId: yup.string().required('La categorie est réquise'),
+  categoryId: yup.string().uuid().required('La categorie est réquise'),
   price: yup.number().required('Le prix est réquis'),
   currency: yup.string().required('La dévise est réquise'),
   quantity: yup.number().required('La quantité est réquise'),
@@ -236,10 +236,10 @@ function EditProductForm({onClose, visible, product}) {
                         {
                           categs.map(categ =>(
                             <>
-                              <Option value={categ.id} style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{categ.name}</Option>
+                              <Option value={categ.pk} style={{ fontWeight: 'bold', textTransform: 'uppercase' }}>{categ.name}</Option>
                               {
                                 categ.SubCategorys?.map(sub =>(
-                                  <Option value={sub.id} key={sub.id}
+                                  <Option value={sub.pk} key={sub.pk}
                                     style={{ marginLeft: 20, fontSize: 13 }}
                                   ><RightOutlined /> {sub.name}</Option>
                                 ))

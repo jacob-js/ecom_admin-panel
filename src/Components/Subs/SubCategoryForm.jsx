@@ -10,7 +10,7 @@ import { Alert } from '@mui/material';
 const { Option } = AntSelect;
 const validSchema = yup.object({
     name: yup.string().required('Le nom est obligatoire'),
-    categId: yup.number().required('Veuillez choisir une catégorie parent'),
+    categId: yup.string().uuid().required('Veuillez choisir une catégorie parent'),
 })
 
 export default function SubCategoryForm({visible, setVisible}) {

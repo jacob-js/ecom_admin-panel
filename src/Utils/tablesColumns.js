@@ -18,7 +18,7 @@ export const productsColumns = (onDelete, loadingDelete, id, viewEdit, onDetailV
         title: 'Catégorie',
         key: 'category',
         render: (item) =>(
-            <span>{item.Category?.name}</span>
+            <span>{item.Category?.name || item.SubCategory?.name}</span>
         )
     },
     {
