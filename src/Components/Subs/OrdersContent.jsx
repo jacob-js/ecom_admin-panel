@@ -38,7 +38,7 @@ function OrdersContent() {
             if(res.status === 200){
                 setLoadingUpdate(false);
                 setItems([]);
-                getOrdersAction(offset, limit)(dispatch);
+                getOrdersAction(limit, offset)(dispatch);
                 sendNotif(res.data.message, 'success');
             }
         } catch (error) {
