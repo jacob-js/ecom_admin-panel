@@ -19,7 +19,7 @@ function OrdersContent() {
     const [loadingUpdate, setLoadingUpdate] = useState(false);
 
     useEffect(() =>{
-        getOrdersAction(offset, limit)(dispatch)
+        getOrdersAction(limit, offset)(dispatch)
     }, [dispatch, offset, limit]);
 
     const rowSelection = {
