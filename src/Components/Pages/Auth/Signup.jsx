@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ArrowRightOutlined } from '@ant-design/icons/lib/icons';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { getFieldError } from '../../Utils/helpers';
+import { getFieldError } from '../../../Utils/helpers';
 import { Alert } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { provinces } from '../../Utils/data';
 import { Button } from 'antd';
-import { PasswordInput, FieldContainer, FieldError, FormContainer, Input, Link, Select, Title  } from '../Commons/commons';
+import { PasswordInput, FieldContainer, FieldError, FormContainer, Input, Link, Title  } from '../../Commons/commons';
 import Aos from 'aos'
-import { signupAction } from '../../Redux/actions/users';
+import { signupAction } from '../../../Redux/actions/users';
 import { useDispatch, useSelector } from 'react-redux'
 import PhoneInput from 'react-phone-number-input';
 
@@ -95,7 +94,7 @@ function Signup() {
                   </Button>
               </div>
           </FormContainer>
-          <div className="">Avez-vous déjà un compte ? <Link onClick={() =>history.push('/login')}>Connectez-vous</Link></div>
+          <div className=""><Link onClick={() =>history.push('/login')}>Me connecter</Link></div>
         </div>
       </div>
     </div>

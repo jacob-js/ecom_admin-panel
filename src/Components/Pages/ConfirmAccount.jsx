@@ -55,7 +55,7 @@ function ConfirmAccount() {
             <div data-aos='fade-right' className="card confirm-account">
                 <FormContainer onSubmit={form.handleSubmit}>
                     <Title className='title'>Vérification du compte</Title>
-                    <p className='descript'>Votre code de vérification vous été envoyé par sms, veuillez le confirmer pour continuer</p>
+                    <p className='descript'>Votre code de vérification vous été envoyé par mail, veuillez le confirmer pour continuer</p>
                     <div className="fields">
                         {
                             error && typeof(error) === 'string' ?
@@ -63,7 +63,7 @@ function ConfirmAccount() {
                         }
                         <FieldContainer>
                             <Input type="text" placeholder="Entrer le code de confirmation" className={
-                                form.errors.code && form.touched.code || getFieldError(error, 'code') ? 'error' : ''
+                                (form.errors.code && form.touched.code) || getFieldError(error, 'code') ? 'error' : ''
                             } onChange={form.handleChange('code')} />
                             {form.errors.code && form.touched.code ? <FieldError>{form.errors.code}</FieldError> : 
                             getFieldError(error, 'username') ? <FieldError>{getFieldError(error, 'username')}</FieldError> : null}

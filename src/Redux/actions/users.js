@@ -198,7 +198,7 @@ export const signupAction = (data) => async(dispatch, history) =>{
 }
 
 export const verifyAccountApi = (data) =>{
-    return axios.post(`/api/v1/users/verify`, data)
+    return axios.post(`/api/v1/users/validate`, data)
 };
 
 export const sendOtpApi = (username) =>{

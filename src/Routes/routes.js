@@ -1,4 +1,4 @@
-import { Categorys, ConfirmAccount, Dashboard, Login, Orders, ProductDetails, Profile, Signup, Staff, Users } from '../Components'
+import { Categorys, ConfirmAccount, Dashboard, Login, Orders, ProductDetails, Profile, ResetPwdOtpForm, ResetPwdUsernameForm, Signup, Staff, UpdatePwdForm, Users } from '../Components'
 import Products from '../Components/Pages/Products'
 
 export const routes = [
@@ -14,6 +14,30 @@ export const routes = [
         name: 'Signup',
         path: '/signup',
         component: Signup,
+        exact: true,
+        protected: false,
+        authRoute: true
+    },
+    {
+        name: 'Check username',
+        path: '/check-username',
+        component: ResetPwdUsernameForm,
+        exact: true,
+        protected: false,
+        authRoute: true
+    },
+    {
+        name: 'Enter otp',
+        path: '/enter-otp',
+        component: ResetPwdOtpForm,
+        exact: true,
+        protected: false,
+        authRoute: true
+    },
+    {
+        name: 'Update password',
+        path: '/reset-pwd',
+        component: UpdatePwdForm,
         exact: true,
         protected: false,
         authRoute: true

@@ -15,7 +15,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 const debug = process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
 const engine = new Styletron();
-axios.defaults.baseURL = 'https://bweteta.herokuapp.com';
+axios.defaults.baseURL = 'https://bwetetamarket.herokuapp.com';
 axios.defaults.headers.common['bweteta_token'] = localStorage.getItem('authtoken');
 const queryClient = new QueryClient();
 

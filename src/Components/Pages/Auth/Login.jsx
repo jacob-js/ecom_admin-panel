@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import { FieldContainer, FieldError, FormContainer, Input, Link, PasswordInput, Title } from '../Commons/commons';
+import { FieldContainer, FieldError, FormContainer, Input, Link, PasswordInput, Title } from '../../Commons/commons';
 import { useFormik } from 'formik';
-import { getFieldError } from '../../Utils/helpers';
+import { getFieldError } from '../../../Utils/helpers';
 import { Button } from 'antd';
 import * as yup from 'yup';
 import { useHistory } from 'react-router-dom';
 import Aos from 'aos';
-import { loginAction } from '../../Redux/actions/users';
+import { loginAction } from '../../../Redux/actions/users';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@mui/material';
 
@@ -56,7 +56,7 @@ function Login() {
                     <Button loading={loading} type='primary' htmlType='submit' className='btn login'>Connexion</Button>
                 </FormContainer>
                 <div className="extra-links">
-                    <Link>Mot de passe oublié ?</Link>
+                    <Link onClick={() => history.push('/check-username')}>Mot de passe oublié ?</Link>
                     <Link onClick={() =>history.push('/signup')}>Créer un compte</Link>
                 </div>
             </div>

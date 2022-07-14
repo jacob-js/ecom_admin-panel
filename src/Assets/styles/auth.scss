@@ -28,6 +28,12 @@
                 background-image: url('../images/login-illustration.png');
             }
         }
+        p{
+            margin: 20px 0px;
+        }
+        .bottom{
+            margin-top: 15px;
+        }
         .right{
             width: 50%;
             display: flex;
@@ -44,8 +50,9 @@
             }
             .extra-links{
                 width: 80%;
-                display: flex;
-                justify-content: space-between;
+                a{
+                    display: block;
+                }
             }
             form{
                 .btn.login{
