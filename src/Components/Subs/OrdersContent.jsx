@@ -3,13 +3,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrdersAction, updateOrdersAction } from '../../Redux/actions/orders';
 import { ordersColumns } from '../../Utils/tablesColumns'
-import { Input, Select } from '../Commons/commons';
+import { Input } from '../Commons/commons';
 import { Dropdown, Anchor, Icon, Div } from "atomize";
 import { sendNotif } from '../../Utils/helpers';
 import { OrdersContext } from '../Pages/Orders';
 
 function OrdersContent() {
     const { loading, rows, count } = useSelector(({ orders: { orders } }) =>orders);
+    const [tableRows, setTableRows] = useState([])
     const { changeTab, changeOrder } = useContext(OrdersContext);
     const dispatch = useDispatch();
     const limit = 10;
@@ -17,6 +18,18 @@ function OrdersContent() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [selectedItems, setItems] = useState([]);
     const [loadingUpdate, setLoadingUpdate] = useState(false);
+
+    useEffect(() =>{
+        (() =>{
+            setTableRows(rows)
+        })()
+    }, [rows]);
+
+    const onFilterByRefChange = (e) =>{
+        const { value } = e.target;
+        const newRows = rows.filter(row => row.ref?.toLowerCase().includes(value.toLowerCase()));
+        setTableRows(newRows);
+    };
 
     useEffect(() =>{
         getOrdersAction(limit, offset)(dispatch)
@@ -80,18 +93,7 @@ function OrdersContent() {
             <div className="title">Commandes</div>
             <div className="bar">
                 <div className="field">
-                    <Input placeholder="Rechercher par le n° de tél" />
-                </div>
-                <div className="field">
-                    <Select placeholder="Etat" defaultValue="all">
-                        <option value="all">Etat</option>
-                    </Select>
-                </div>
-                <div className="field">
-                    <Select placeholder='Limites de commandes' defaultValue="all">
-                        <option value="all">Limites de commandes</option>
-                        <option value="">7 dérniers jours</option>
-                    </Select>
+                    <Input placeholder="Filtrer par code de commande" onChange={onFilterByRefChange} />
                 </div>
                 <div className="field">
                 <Dropdown
@@ -114,7 +116,7 @@ function OrdersContent() {
         </div>
 
         <div className="content">
-            <Table dataSource={rows} loading={loading || loadingUpdate} columns={ordersColumns(handleOrderClick)} className='table'
+            <Table dataSource={tableRows} loading={loading || loadingUpdate} columns={ordersColumns(handleOrderClick)} className='table'
                 pagination={{
                     total: count,
                     pageSize: limit,

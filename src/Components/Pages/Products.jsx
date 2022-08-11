@@ -9,20 +9,6 @@ import { Input, Select } from '../Commons/commons';
 import EditProductForm from '../Subs/EditProduct';
 import ProductAddForm from './ProductAddForm';
 
-const data = [
-    {
-        name: 'Macbook Pro',
-        category: 'Ordinateur',
-        price: 1000,
-        currency: 'usd',
-        // cover: 'https://i.ibb.co/WpM5yZZ/9.png',
-        cover: 'https://res.cloudinary.com/mulo/image/upload/v1625142522/qwyhdyesgqc4jqbk0iae.jpg',
-        quantity: 10,
-        quantityMetric: 'pièce',
-        discount: 50
-    }
-]
-
 function Products() {
     const [visibleAddForm, setVisibleAddForm] = useState();
     const [visibleEditForm, setVisibleEditForm] = useState();

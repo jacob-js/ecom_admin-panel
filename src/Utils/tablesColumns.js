@@ -218,7 +218,26 @@ export const ordersColumns = (onViewOrder) => [
             record.status === 'cancelled' ?
             <Tag textColor="danger700" bg="danger200" p={{ x: "10px", y: "5px" }} rounded="circle">{record.status}</Tag>:
             <Tag p={{ x: "10px", y: "5px" }} rounded="xl">{record.status}</Tag>
-        )
+        ),
+        filters: [
+            {
+                text: "En cours",
+                value: "inProcess"
+            },
+            {
+                text: "En attente",
+                value: "pending"
+            },
+            {
+                text: "Livré",
+                value: "delivered"
+            },
+            {
+                text: "Annulé",
+                value: "cancelled"
+            }
+        ],
+        onFilter: (value, record) => record.status === value
     },
     {
         title: 'Détail',
