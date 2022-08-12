@@ -4,75 +4,88 @@ import { Tag } from "atomize";
 import moment from "moment";
 import { MdOutlineCategory } from "react-icons/md";
 
-export const productsColumns = (onDelete, loadingDelete, id, viewEdit, onDetailView) => [
-    {
-        title: 'Nom du produit',
-        key: 'name',
-        render: (item) =>(
-            <>
-                <Avatar src={item.cover} /> {item.name}
-            </>
-        )
-    },
-    {
-        title: 'Catégorie',
-        key: 'category',
-        render: (item) =>(
-            <span>{item.Category?.name || item.SubCategory?.name}</span>
-        )
-    },
-    {
-        title: 'Prix',
-        key: 'price',
-        render: (item) =>(
-            <>
-                {item.price}{item.currency === 'cdf'?'FC': '$' }
-            </>
-        )
-    },
-    {
-        title: 'Stock',
-        key: 'stock',
-        render: (item) =>(
-            <>{item.quantity}{item.quantityMetric}{item.quantity > 1 ? 's': ''}</>
-        )
-    },
-    {
-        title: 'Réduction',
-        key: 'discount',
-        render: (item) =>(
-            <>{item.discount}{item.currency === 'cdf'?'FC': '$' }</>
-        )
-    },
-    {
-        title: 'Détail',
-        key: 'detail',
-        render: (item) =>(
-            <div className="row-actions">
-                <EyeOutlined className="view-row" onClick={() =>onDetailView(item)} />
-            </div>
-        )
-    },
-    {
-        title: 'Actions',
-        key: 'actions',
-        render: (item) =>(
-            <div className="row-actions">
-                <EditOutlined className="edit-row" onClick={() =>viewEdit(item)} /> {
-                    loadingDelete && item.id === id ? <LoadingOutlined />:
-                    <Popconfirm 
-                        onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
-                        okText="Confirmer"
-                        cancelText='Annuler'
-                        okType="danger"
-                    >
-                        <DeleteOutlined className="delete-row" />
-                    </Popconfirm>
-                }
-            </div>
-        )
-    }
-];
+export const productsColumns = (onDelete, loadingDelete, id, viewEdit, onDetailView, categs) => {
+    let subCategs = [];
+
+    categs.forEach((categ) => {
+        if (categ.SubCategorys?.length > 0) subCategs.push(...categ.SubCategorys);
+    });
+
+    const categorys = [ ...categs, ...subCategs ];
+    console.log(categorys);
+
+    return [
+        {
+            title: 'Nom du produit',
+            key: 'name',
+            render: (item) =>(
+                <>
+                    <Avatar src={item.cover} /> {item.name}
+                </>
+            )
+        },
+        {
+            title: 'Catégorie',
+            key: 'category',
+            render: (item) =>(
+                <span>{item.Category?.name || item.SubCategory?.name}</span>
+            ),
+            filters: categorys.map(categ => ({ text: categ.name, value: categ.pk })),
+            onFilter: (value, record) => record.categoryId === value
+        },
+        {
+            title: 'Prix',
+            key: 'price',
+            render: (item) =>(
+                <>
+                    {item.price}{item.currency === 'cdf'?'FC': '$' }
+                </>
+            )
+        },
+        {
+            title: 'Stock',
+            key: 'stock',
+            render: (item) =>(
+                <>{item.quantity}{item.quantityMetric}{item.quantity > 1 ? 's': ''}</>
+            )
+        },
+        {
+            title: 'Réduction',
+            key: 'discount',
+            render: (item) =>(
+                <>{item.discount}{item.currency === 'cdf'?'FC': '$' }</>
+            )
+        },
+        {
+            title: 'Détail',
+            key: 'detail',
+            render: (item) =>(
+                <div className="row-actions">
+                    <EyeOutlined className="view-row" onClick={() =>onDetailView(item)} />
+                </div>
+            )
+        },
+        {
+            title: 'Actions',
+            key: 'actions',
+            render: (item) =>(
+                <div className="row-actions">
+                    <EditOutlined className="edit-row" onClick={() =>viewEdit(item)} /> {
+                        loadingDelete && item.id === id ? <LoadingOutlined />:
+                        <Popconfirm 
+                            onConfirm={() =>onDelete(item.id)} title="Etes-vous sûr de vouloir supprimer ?"
+                            okText="Confirmer"
+                            cancelText='Annuler'
+                            okType="danger"
+                        >
+                            <DeleteOutlined className="delete-row" />
+                        </Popconfirm>
+                    }
+                </div>
+            )
+        }
+    ]
+};
 
 export const productTypesColumns = (onDelete, loadingDelete, id) => [
     {

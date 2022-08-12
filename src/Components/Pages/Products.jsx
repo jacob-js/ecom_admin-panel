@@ -13,8 +13,10 @@ function Products() {
     const [visibleAddForm, setVisibleAddForm] = useState();
     const [visibleEditForm, setVisibleEditForm] = useState();
     const [editable, setEditable] = useState({});
+    const [tableRows, setTableRows] = useState([]);
     const { loading, rows, count } = useSelector(({ products: { products } }) =>products);
     const { loading: loadingDelete, id } = useSelector(({ products: { deleteProd } }) =>deleteProd);
+    const { data: categs } = useSelector(({categorys:{categorys}}) =>categorys);
     const dispatch = useDispatch();
     const history = useHistory();
     const limit = 10;
@@ -23,6 +25,12 @@ function Products() {
     useEffect(() =>{
         getProductsAction(offset, limit)(dispatch)
     }, [offset, limit, dispatch]);
+
+    useEffect(() =>{
+        (() =>{
+            setTableRows(rows);
+        })();
+    }, [rows]);
 
     const onDeleteItem = (itemId) =>{
         deleteProd(itemId)(dispatch)
@@ -35,25 +43,21 @@ function Products() {
 
     const onDetailView = (product) =>{
         history.push(`/products/${product.id}`);
-    }
+    };
+
+    const handleSearch = (e) =>{
+        const { value } = e.target;
+        const newProds = rows.filter(prod => prod.name.toLowerCase().includes(value.toLowerCase()));
+        setTableRows(newProds);
+    };
 
   return (
     <div className='products'>
         <div className="header">
             <div className="title">Produits</div>
             <div className="bar">
-                <div className="field">
-                    <Input placeholder="Rechercher par le nom du produit" />
-                </div>
-                <div className="field">
-                    <Select placeholder="Catégorie">
-                        <option value="">Toutes les catégories</option>
-                    </Select>
-                </div>
-                <div className="field">
-                    <Select placeholder='Prix'>
-                        <option value="">Tous les prix</option>
-                    </Select>
+                <div className="field search">
+                    <Input placeholder="Rechercher par le nom du produit" onChange={handleSearch} />
                 </div>
                 <div className="field">
                     <Button type='primary' className='btn add-product' icon={<PlusOutlined />} block onClick={setVisibleAddForm}>
@@ -64,7 +68,7 @@ function Products() {
         </div>
 
         <div className="content">
-            <Table dataSource={rows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id, onViewEditForm, onDetailView)} 
+            <Table dataSource={tableRows} loading={loading} columns={productsColumns(onDeleteItem, loadingDelete, id, onViewEditForm, onDetailView, categs)} 
                 className='table'
                 pagination={{
                     total: count,
